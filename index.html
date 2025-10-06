@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>invitekamuid - Jasa Undangan Digital Pernikahan & Acara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== GLOBAL & VARIABEL WARNA ===== */
+        :root {
+            --primary-blue: #3377FF;
+            --secondary-blue: #00A3FF;
+            --dark-text: #222;
+            --light-text: #666;
+            --bg-light: #F5F7FA;
+            --white: #fff;
+            --border-color: #EAEAEA;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {}
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 40px 0;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+        }
+        
+        .page-section {
+            display: none;
+        }
+        .page-section.is-active-page {
+            display: block;
+        }
+
+
+        /* ===== HEADER & NAVIGASI ===== */
+        .main-header {
+            background: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            background-color: var(--white);
+            position: fixed;
+            top: 67px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 67px);
+            z-index: 999;
+            padding: 10px 0;
+        }
+
+        .mobile-nav.is-active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .mobile-nav a:hover {
+            background-color: var(--bg-light);
+        }
+
+        /* ===== BAGIAN HOME: HERO, KATEGORI, TEMPLATE ===== */
+        #home .hero-section h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        #home .hero-section p {
+            font-size: 15px;
+            color: var(--light-text);
+            margin-bottom: 25px;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons a {
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .hero-cta-secondary {
+            background-color: var(--white);
+            color: #25D366;
+            border: 1px solid #25D366;
+        }
+        
+        .hero-cta-primary:hover, .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(51,119,255,0.2);
+        }
+
+        .hero-cta-secondary img {
+            width: 20px;
+        }
+
+        #home .categories-section {
+            padding-top: 0;
+            background-color: var(--white);
+        }
+
+        .category-scroll {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            scrollbar-width: none;
+        }
+
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-item {
+            flex: 0 0 auto;
+            min-width: 90px; /* Lebar minimum agar tidak terlalu kecil */
+            text-align: center;
+            margin-right: 15px; 
+            padding: 10px;
+            border-radius: 12px;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-item:last-child {
+            margin-right: 0;
+        }
+
+        .category-item.active {
+            background: var(--primary-blue);
+            color: var(--white);
+            border-color: var(--primary-blue);
+        }
+
+        .category-item.active .category-icon {
+            filter: brightness(0) invert(1);
+        }
+
+        .category-icon {
+            height: 32px;
+            margin-bottom: 5px;
+        }
+
+        .category-item span {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px 0;
+        }
+
+        .template-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex; /* Diubah oleh JS */
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .template-card:hover {
+            transform: scale(1.03);
+        }
+
+        /* Class untuk menyembunyikan template saat difilter */
+        .template-card.hidden {
+            display: none;
+        }
+
+        .template-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .card-image img {
+            width: 100%;
+            display: block;
+        }
+
+        .card-content {
+            padding: 12px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .card-content .price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .price .original-price {
+            text-decoration: line-through;
+            color: var(--light-text);
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .card-buttons a {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .preview-btn {
+            background: var(--white);
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+
+        .preview-btn:hover {
+            background: #F5F7FA;
+        }
+
+        .order-btn {
+            background: var(--primary-blue);
+            color: var(--white);
+            border: 1px solid var(--primary-blue);
+        }
+
+        /* ===== BAGIAN LAYANAN, KONTAK, DLL ===== */
+        .layanan-grid, .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .layanan-item {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .layanan-item svg {
+            width: 48px;
+            height: 48px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .layanan-item h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .layanan-item p {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary-blue);
+            color: var(--white);
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #harga-template-terpilih {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-top: 5px;
+        }
+        
+        .testimonial-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--primary-blue);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--light-text);
+            margin-bottom: 10px;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-answer {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .faq-answer p {
+            padding-bottom: 15px;
+            color: var(--light-text);
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        .portfolio-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .portfolio-card img {
+            width: 100%;
+            display: block;
+        }
+        .portfolio-info {
+            padding: 15px;
+        }
+        .portfolio-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .portfolio-info p {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+        #tentang-kami .about-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        #tentang-kami .about-content img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        /* ===== ELEMEN TETAP (BOTTOM NAV) ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--light-text);
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 2px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .content-spacer {
+            height: 80px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="#home" class="logo">invitekamuid</a>
+            <div class="menu-toggle">☰</div>
+        </div>
+    </header>
+
+    <nav class="mobile-nav">
+        <a href="#home">Home</a>
+        <a href="#portofolio">Portofolio</a>
+        <a href="#faq">FAQ</a>
+        <a href="#tentang-kami">Tentang Kami</a>
+        <a href="#kontak">Kontak</a>
+    </nav>
+
+    <main>
+        <section id="home" class="page-section is-active-page" style="padding: 0; border: none;">
+            <div class="hero-section" style="text-align: left;">
+                <div class="container">
+                    <h1>Buat Undangan Digital Tanpa Ribet!</h1>
+                    <p>Coba sekarang dan buat undangan digital untuk segala acara.</p>
+                    <div class="hero-buttons">
+                        <a href="https://ganti-dengan-link-demo-asli.com/elegan-grey" target="_blank" class="hero-cta-primary">Lihat Contoh ></a>
+                        <a href="https://wa.me/6281275623551?text=*Halo*, saya mau bertanya tentang undangan." class="hero-cta-secondary" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"> Hubungi Kami
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="categories-section">
+                <div class="container">
+                    <div class="category-scroll">
+                        <div class="category-item active" data-filter="pernikahan" data-placeholder="Contoh: Pernikahan Dinda & Roy">
+                            <span>Pernikahan</span>
+                        </div>
+                        <div class="category-item" data-filter="khitanan" data-placeholder="Contoh: Khitanan & Aqiqah M. Al Fatih">
+                            <span>Khitanan</span>
+                        </div>
+                        <div class="category-item" data-filter="ultah" data-placeholder="Contoh: Ulang Tahun Ke-5 Aira">
+                            <span>Ulang Tahun</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="template-grid">
+                    <div class="template-card" data-category="pernikahan">
+                        <div class="template-label">Paling Laris</div>
+                        <div class="card-image"><img src="🤵👰" alt="Template Elegan Grey"></div>
+                        <div class="card-content">
+                            <h3>Elegan-Grey Wedding</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 75.000</span>
+                                <span>Rp 50.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://ganti-dengan-link-demo-asli.com/elegan-grey" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#order-section" class="order-btn" data-template="Elegan-Grey Wedding" data-price="Rp 50.000">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-card" data-category="pernikahan">
+                        <div class="template-label">Elegan</div>
+                        <div class="card-image"><img src="https://i.imgur.com/qL8Z8tN.png" alt="Template Rustic Vibe"></div>
+                        <div class="card-content">
+                            <h3>Rustic Vibe Wedding</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 85.000</span>
+                                <span>Rp 60.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://ganti-dengan-link-demo-asli.com/rustic-vibe" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#order-section" class="order-btn" data-template="Rustic Vibe Wedding" data-price="Rp 60.000">Order</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="template-card hidden" data-category="khitanan">
+                        <div class="template-label">Islami</div>
+                        <div class="card-image"><img src="🤵👰" alt="Template Black Java"></div>
+                        <div class="card-content">
+                            <h3>Khitanan Al-Fatih</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 80.000</span>
+                                <span>Rp 55.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://ganti-dengan-link-demo-asli.com/khitanan-alfatih" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#order-section" class="order-btn" data-template="Khitanan Al-Fatih" data-price="Rp 55.000">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="template-card hidden" data-category="ultah">
+                        <div class="card-image"><img src="https://i.imgur.com/w2G9b3P.png" alt="Template White Gold"></div>
+                        <div class="card-content">
+                            <h3>Aira's Birthday Party</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 65.000</span>
+                                <span>Rp 45.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://ganti-dengan-link-demo-asli.com/aira-birthday" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#order-section" class="order-btn" data-template="Aira's Birthday Party" data-price="Rp 45.000">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="page-section is-active-page">
+            <div class="container">
+                <h2 class="section-title">Apa Kata Mereka?</h2>
+                <div class="testimonial-card">
+                    <p>"Prosesnya cepat dan hasilnya memuaskan banget! Desainnya modern dan fiturnya lengkap. Teman-teman semua pada muji undangannya."</p>
+                    <div class="author">- Dinda & Roy, Medan</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Adminnya responsif dan sangat membantu. Awalnya bingung mau pilih desain apa, tapi dibantu diarahkan sampai nemu yang pas. Recommended!"</p>
+                    <div class="author">- Sarah, Jakarta</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portofolio" class="page-section">
+            <div class="container">
+                <h2 class="section-title">Portofolio Kami</h2>
+                <div class="portfolio-grid">
+                    <div class="portfolio-card">
+                        <img src="https://i.imgur.com/vHq0L07.png" alt="Portofolio 1">
+                        <div class="portfolio-info">
+                            <h3>Pernikahan Rustic - Dinda & Roy</h3>
+                            <p>Desain elegan dengan tema rustic yang hangat untuk acara di Medan.</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img src="https://i.imgur.com/7b58Jld.png" alt="Portofolio 2">
+                        <div class="portfolio-info">
+                            <h3>Aqiqah Modern - Keluarga Ahmad</h3>
+                            <p>Sentuhan modern dan minimalis untuk acara aqiqah di Jakarta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="layanan" class="page-section is-active-page">
+            <div class="container">
+                <h2 class="section-title">Layanan Kami</h2>
+                <div class="layanan-grid">
+                    <div class="layanan-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4l1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                        <h3>Desain Eksklusif</h3>
+                        <p>Pilih dari puluhan desain premium yang modern dan elegan untuk semua acaramu.</p>
+                    </div>
+                    <div class="layanan-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                        <h3>Fitur Lengkap</h3>
+                        <p>Countdown, galeri foto, amplop digital, RSVP, hingga Google Maps lokasi acara.</p>
+                    </div>
+                    <div class="layanan-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <h3>Admin Support</h3>
+                        <p>Bingung? Tim kami siap membantu membuatkan undangan dari awal sampai selesai.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="page-section">
+            <div class="container">
+                <h2 class="section-title">Tanya Jawab (FAQ)</h2>
+                <div class="faq-item">
+                    <div class="faq-question">Berapa lama proses pembuatannya? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Proses pembuatan undangan biasanya memakan waktu 1-2 hari kerja setelah semua data dan materi (foto, dll) kami terima.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Bagaimana cara pembayarannya? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Pembayaran dapat dilakukan melalui transfer bank. Admin kami akan memberikan detail rekening setelah Anda mengirimkan form pemesanan.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Apakah saya bisa melakukan revisi? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Tentu! Anda mendapatkan jatah revisi minor (seperti salah ketik nama, waktu, dll.) sebanyak 2 kali tanpa biaya tambahan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="tentang-kami" class="page-section">
+            <div class="container">
+                <h2 class="section-title">Tentang Kami</h2>
+                <div class="about-content">
+                    <img src="https://i.imgur.com/8f5gO3A.png" alt="Logo invitekamuid">
+                    <p>invitekamuid didirikan oleh tim desainer grafis dengan passion untuk membantu hari spesial Anda menjadi lebih berkesan. Berlokasi di Medan, kami percaya setiap acara layak mendapatkan undangan yang indah dan personal. Kami berkomitmen untuk memberikan layanan terbaik dengan desain yang modern dan proses yang mudah.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="order-section" class="page-section">
+            <div class="container">
+                <h2 class="section-title">Formulir Pemesanan
+                    <br>
+                    <span id="nama-template-terpilih" style="font-size: 18px; color: var(--light-text); font-weight: 500;"></span>
+                    <span id="harga-template-terpilih"></span>
+                </h2>
+                <p style="text-align: center; max-width: 500px; margin: -20px auto 30px; color: var(--light-text);">Silakan lengkapi data di bawah ini untuk melakukan pemesanan.</p>
+                <form>
+                    <input type="hidden" id="template-pesanan" value="">
+                    <input type="hidden" id="harga-pesanan" value="">
+                    <div class="form-group">
+                        <label for="nama-pemesan">Nama Anda</label>
+                        <input type="text" id="nama-pemesan" placeholder="Masukkan nama lengkap Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama-acara">Nama Acara</label>
+                        <input type="text" id="nama-acara" placeholder="Contoh: Pernikahan Dinda & Roy" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="catatan-pesanan">Catatan Tambahan (Opsional)</label>
+                        <textarea id="catatan-pesanan" rows="4" placeholder="Tulis catatan jika ada permintaan khusus..."></textarea>
+                    </div>
+                    <p style="text-align: center; font-size: 13px; color: var(--light-text); margin-top: -10px; margin-bottom: 20px;">
+                        Tenang, Anda akan diarahkan ke WhatsApp untuk konfirmasi. Belum ada tagihan pembayaran.
+                    </p>
+                    <button type="submit" class="form-btn">Kirim Pesanan via WhatsApp</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="kontak" class="page-section">
+            <div class="container">
+                <h2 class="section-title">Hubungi Kami</h2>
+                <p style="text-align: center; max-width: 500px; margin: -20px auto 30px; color: var(--light-text);">Punya pertanyaan umum? Jangan ragu untuk mengirim pesan.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="nama-kontak">Nama Anda</label>
+                        <input type="text" id="nama-kontak" placeholder="Masukkan nama lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesan-kontak">Pesan Anda</label>
+                        <textarea id="pesan-kontak" rows="5" placeholder="Tulis pertanyaan Anda di sini..." required></textarea>
+                    </div>
+                    <button type="submit" class="form-btn">Kirim via WhatsApp</button>
+                </form>
+            </div>
+        </section>
+
+        <div class="content-spacer"></div>
+    </main>
+    
+    <footer class="bottom-nav">
+        <a href="#home" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 21V9l8-6l8 6v12h-6v-7h-4v7H4Z"/></svg>
+            <span>Home</span>
+        </a>
+        <a href="#portofolio" class="nav-item">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6l10.473-4L22 6v12l-10.527 4L2 18V6zm1.94-2.09L4 4v1l8.28,3.13L19.94,4.1L20,4l-9.72-3.69L12,1l-1.63.61L3.94,3.91zM4,6.71V17l7,2.66V9.43L4,6.71zm9,12.95V9.43l7-2.66V17l-7,2.66z"/></svg>
+            <span>Portofolio</span>
+        </a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const allPages = document.querySelectorAll('.page-section');
+            const navLinks = document.querySelectorAll('.mobile-nav a, .bottom-nav a, .logo');
+            const bottomNavItems = document.querySelectorAll('.bottom-nav .nav-item');
+
+            function showPage(pageId) {
+                allPages.forEach(page => page.classList.remove('is-active-page'));
+
+                // ===================================================
+                // PERBAIKAN BUG 1: Menampilkan semua section Home
+                // ===================================================
+                if (pageId === '#home') {
+                    document.querySelector('#home').classList.add('is-active-page');
+                    document.querySelector('#testimonials').classList.add('is-active-page');
+                    document.querySelector('#layanan').classList.add('is-active-page');
+                } else {
+                     const targetPage = document.querySelector(pageId);
+                    if (targetPage) {
+                        targetPage.classList.add('is-active-page');
+                    }
+                }
+                
+                window.scrollTo(0, 0); 
+                
+                bottomNavItems.forEach(item => {
+                    item.classList.toggle('active', item.getAttribute('href') === pageId);
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('href');
+                    showPage(pageId);
+                    
+                    if(mobileNav.classList.contains('is-active')) {
+                        mobileNav.classList.remove('is-active');
+                    }
+                });
+            });
+
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+            menuToggle.addEventListener('click', () => mobileNav.classList.toggle('is-active'));
+
+            const namaAcaraInput = document.querySelector('#nama-acara');
+            const categoryItems = document.querySelectorAll('.category-item');
+            const templateCards = document.querySelectorAll('.template-card');
+
+            // ===================================================
+            // PERBAIKAN BUG 2: Fungsi untuk memfilter template
+            // ===================================================
+            function filterTemplates(category) {
+                templateCards.forEach(card => {
+                    if (card.dataset.category === category) {
+                        // FIX: Tambahkan baris ini untuk menampilkan kembali card
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            }
+            
+            categoryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Update tampilan tombol kategori
+                    categoryItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update placeholder form
+                    namaAcaraInput.placeholder = this.getAttribute('data-placeholder');
+                    
+                    // Filter template berdasarkan kategori yang diklik
+                    const filterValue = this.getAttribute('data-filter');
+                    filterTemplates(filterValue);
+                });
+            });
+
+            // --- SCRIPT UNTUK FUNGSI ORDER ---
+            const orderButtons = document.querySelectorAll('.order-btn');
+            const templatePesananInput = document.querySelector('#template-pesanan');
+            const hargaPesananInput = document.querySelector('#harga-pesanan');
+            const namaTemplateTerpilihSpan = document.querySelector('#nama-template-terpilih');
+            const hargaTemplateTerpilihSpan = document.querySelector('#harga-template-terpilih');
+            const orderForm = document.querySelector('#order-section form');
+
+            orderButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const cardContent = this.closest('.card-content');
+                    const templateName = cardContent.querySelector('h3').textContent;
+                    const price = this.getAttribute('data-price');
+                    const originalPriceEl = cardContent.querySelector('.original-price');
+                    
+                    templatePesananInput.value = templateName;
+                    hargaPesananInput.value = price;
+                    namaTemplateTerpilihSpan.textContent = `Template: ${templateName}`;
+                    
+                    if (originalPriceEl) {
+                        hargaTemplateTerpilihSpan.innerHTML = `Harga: <span class="original-price" style="text-decoration: line-through; color: var(--light-text); font-size: 13px; font-weight: 400;">${originalPriceEl.textContent}</span> <span>${price}</span>`;
+                    } else {
+                        hargaTemplateTerpilihSpan.textContent = `Harga: ${price}`;
+                    }
+                    
+                    showPage(this.getAttribute('href'));
+                });
+            });
+
+            orderForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const namaPemesan = document.querySelector('#nama-pemesan').value;
+                const namaAcara = document.querySelector('#nama-acara').value;
+                const template = templatePesananInput.value;
+                const harga = hargaPesananInput.value;
+                const catatan = document.querySelector('#catatan-pesanan').value;
+                const nomorWA = '6281275623551'; 
+
+                if (!namaPemesan.trim() || !namaAcara.trim()) {
+                    alert('Mohon isi Nama Anda dan Nama Acara.');
+                    return;
+                }
+                
+                if (!template.trim()) {
+                    alert('Silakan pilih salah satu template terlebih dahulu dengan menekan tombol "Order".');
+                    return;
+                }
+
+                let templatePesan = `Halo, saya mau pesan undangan digital.\n\n*Detail Pesanan:*\n- Nama Pemesan: *${namaPemesan}*\n- Nama Acara: *${namaAcara}*\n- Pilihan Template: *${template}*\n- Harga Promo: *${harga}*`;
+
+                if (catatan.trim()) {
+                    templatePesan += `\n- Catatan: ${catatan}`;
+                }
+
+                const whatsappURL = `https://wa.me/${nomorWA}?text=${encodeURIComponent(templatePesan)}`;
+                window.open(whatsappURL, '_blank');
+            });
+            
+            const contactForm = document.querySelector('#kontak form');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault(); 
+                const nama = document.querySelector('#nama-kontak').value;
+                const pesan = document.querySelector('#pesan-kontak').value;
+                const nomorWA = '6281275623551';
+
+                if (!nama.trim() || !pesan.trim()) {
+                    alert('Mohon isi nama dan pesan Anda.');
+                    return;
+                }
+
+                const templatePesan = `Halo, saya ${nama}.\n\n${pesan}`;
+                const whatsappURL = `https://wa.me/${nomorWA}?text=${encodeURIComponent(templatePesan)}`;
+                window.open(whatsappURL, '_blank');
+            });
+            
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const currentlyActive = document.querySelector('.faq-item.active');
+                    if (currentlyActive && currentlyActive !== item) {
+                        currentlyActive.classList.remove('active');
+                    }
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
