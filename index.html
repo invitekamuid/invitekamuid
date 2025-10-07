@@ -883,11 +883,9 @@
     </footer>
 
     <script type="module">
-      // Import fungsi yang dibutuhkan dari Firebase SDK
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
       import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-      // Konfigurasi Firebase Anda yang sudah diperbaiki
       const firebaseConfig = {
         apiKey: "AIzaSyB9HaArMoR9By4kjaQ2s9uRqrkJsHU0Cp8",
         authDomain: "invitekamuid.firebaseapp.com",
@@ -898,11 +896,9 @@
         measurementId: "G-MQR5LSQJQN"
       };
 
-      // Inisialisasi Firebase App dan Firestore
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      // Membuat fungsi-fungsi Firebase bisa diakses oleh script lain di bawahnya
       window.firebaseDB = {
         db,
         collection,
@@ -916,21 +912,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // === SEMUA VARIABEL YANG DIBUTUHKAN ===
             const allPages = document.querySelectorAll('.page-section');
             const navLinks = document.querySelectorAll('.mobile-nav a, .bottom-nav a, .logo');
             const bottomNavItems = document.querySelectorAll('.bottom-nav .nav-item');
             const menuToggle = document.querySelector('.menu-toggle');
             const mobileNav = document.querySelector('.mobile-nav');
-            
             const commentForm = document.getElementById('comment-form');
             const commentsList = document.getElementById('comments-list');
             const testimonialsContainer = document.querySelector('#testimonials-container');
             const testimonialsTitle = testimonialsContainer.querySelector('h2');
-            
             const faqItems = document.querySelectorAll('.faq-item');
             
-            // === FUNGSI NAVIGASI HALAMAN ===
             function showPage(pageId) {
                 allPages.forEach(page => page.classList.remove('is-active-page'));
                 if (pageId === '#home') {
@@ -962,7 +954,32 @@
 
             menuToggle.addEventListener('click', () => mobileNav.classList.toggle('is-active'));
             
-            // === LOGIKA FIREBASE (Dijalankan setelah memastikan Firebase siap) ===
+            const namaAcaraInput = document.getElementById('nama-acara');
+            const categoryItems = document.querySelectorAll('.category-item');
+            const templateCards = document.querySelectorAll('.template-card');
+
+            function filterTemplates(category) {
+                templateCards.forEach(card => {
+                    if (card.dataset.category === category) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            }
+
+            categoryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    categoryItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    if (namaAcaraInput) {
+                        namaAcaraInput.placeholder = this.getAttribute('data-placeholder');
+                    }
+                    const filterValue = this.getAttribute('data-filter');
+                    filterTemplates(filterValue);
+                });
+            });
+
             function initializeFirebaseLogic() {
                 if (window.firebaseDB) {
                     const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } = window.firebaseDB;
@@ -971,18 +988,12 @@
                         const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
                         
                         onSnapshot(commentsQuery, (snapshot) => {
-                            // Hapus komentar lama yang diambil dari Firebase sebelum menambahkan yang baru
                             const existingFirebaseComments = document.querySelectorAll('.from-firebase');
                             existingFirebaseComments.forEach(card => card.remove());
                             
-                            const existingUlasanComments = commentsList.querySelectorAll('.comment-card');
-                            existingUlasanComments.forEach(card => card.remove());
-
-
-                            snapshot.forEach((doc) => {
+                            snapshot.docs.forEach((doc) => {
                                 const comment = doc.data();
                                 
-                                // Tampilkan di halaman "Ulasan"
                                 const commentHTML = `
                                     <div class="comment-card from-firebase">
                                         <span class="comment-author">${comment.name}</span>
@@ -991,7 +1002,6 @@
                                 `;
                                 commentsList.insertAdjacentHTML('beforeend', commentHTML);
 
-                                // Tampilkan di halaman utama (Testimonials)
                                 const testimonialHTML = `
                                     <div class="testimonial-card from-firebase">
                                         <p>"${comment.text}"</p>
@@ -1020,7 +1030,6 @@
                             commentForm.reset();
                             alert('Terima kasih! Komentar Anda telah berhasil dikirim.');
                             showPage('#home');
-
                         } catch (error) {
                             console.error("Error adding document: ", error);
                             alert('Maaf, terjadi kesalahan saat mengirim komentar.');
@@ -1028,61 +1037,26 @@
                     });
 
                 } else {
-                    // Coba lagi setelah beberapa saat jika Firebase belum siap
-                    setTimeout(initializeFirebaseLogic, 100); 
+                    setTimeout(initializeFirebaseLogic, 100);
                 }
             }
-
             initializeFirebaseLogic();
             
-            // === LOGIKA LAINNYA (TETAP SAMA) ===
             const standaloneStars = document.querySelectorAll('.rating-stars-standalone span');
             const submitRatingBtn = document.getElementById('submit-rating-btn');
             const ratingSuccessMessage = document.getElementById('rating-success-message');
             let selectedRatingValue = 0;
             
             standaloneStars.forEach(star => {
-                star.addEventListener('mouseover', function() {
-                    if (submitRatingBtn.disabled) return;
-                    resetStandaloneStars();
-                    const currentValue = this.dataset.value;
-                    for (let i = 0; i < currentValue; i++) {
-                        standaloneStars[i].innerHTML = '★';
-                    }
-                });
-                star.addEventListener('mouseout', function() {
-                    if (submitRatingBtn.disabled) return;
-                    resetStandaloneStars();
-                    if (selectedRatingValue > 0) {
-                        for (let i = 0; i < selectedRatingValue; i++) {
-                            standaloneStars[i].classList.add('selected');
-                            standaloneStars[i].innerHTML = '★';
-                        }
-                    }
-                });
-                star.addEventListener('click', function() {
-                    if (submitRatingBtn.disabled) return;
-                    selectedRatingValue = this.dataset.value;
-                    resetStandaloneStars();
-                    for (let i = 0; i < selectedRatingValue; i++) {
-                        standaloneStars[i].classList.add('selected');
-                        standaloneStars[i].innerHTML = '★';
-                    }
-                });
+                star.addEventListener('mouseover', function() { if (submitRatingBtn.disabled) return; resetStandaloneStars(); const currentValue = this.dataset.value; for (let i = 0; i < currentValue; i++) { standaloneStars[i].innerHTML = '★'; } });
+                star.addEventListener('mouseout', function() { if (submitRatingBtn.disabled) return; resetStandaloneStars(); if (selectedRatingValue > 0) { for (let i = 0; i < selectedRatingValue; i++) { standaloneStars[i].classList.add('selected'); standaloneStars[i].innerHTML = '★'; } } });
+                star.addEventListener('click', function() { if (submitRatingBtn.disabled) return; selectedRatingValue = this.dataset.value; resetStandaloneStars(); for (let i = 0; i < selectedRatingValue; i++) { standaloneStars[i].classList.add('selected'); standaloneStars[i].innerHTML = '★'; } });
             });
 
-            function resetStandaloneStars() {
-                standaloneStars.forEach(s => {
-                    s.classList.remove('selected');
-                    s.innerHTML = '☆';
-                });
-            }
+            function resetStandaloneStars() { standaloneStars.forEach(s => { s.classList.remove('selected'); s.innerHTML = '☆'; }); }
 
             submitRatingBtn.addEventListener('click', function() {
-                if (selectedRatingValue === 0) {
-                    alert('Mohon pilih jumlah bintang untuk penilaian Anda.');
-                    return;
-                }
+                if (selectedRatingValue === 0) { alert('Mohon pilih jumlah bintang untuk penilaian Anda.'); return; }
                 ratingSuccessMessage.style.display = 'block';
                 submitRatingBtn.disabled = true;
                 submitRatingBtn.style.opacity = '0.7';
@@ -1093,14 +1067,28 @@
                 const question = item.querySelector('.faq-question');
                 question.addEventListener('click', () => {
                     const currentlyActive = document.querySelector('.faq-item.active');
-                    if (currentlyActive && currentlyActive !== item) {
-                        currentlyActive.classList.remove('active');
-                    }
+                    if (currentlyActive && currentlyActive !== item) { currentlyActive.classList.remove('active'); }
                     item.classList.toggle('active');
                 });
             });
+
+            const orderForm = document.getElementById('order-form');
+            if(orderForm){
+                orderForm.addEventListener('submit', function(e){
+                     e.preventDefault();
+                    // Logika form order whatsapp
+                });
+            }
+
+            const contactForm = document.getElementById('contact-form');
+            if(contactForm){
+                contactForm.addEventListener('submit', function(e){
+                    e.preventDefault();
+                    // Logika form contact whatsapp
+                });
+            }
         });
     </script>
 </body>
 
-    </html>
+                </html>
