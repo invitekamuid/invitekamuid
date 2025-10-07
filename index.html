@@ -7,7 +7,7 @@
     <title>invitekamuid - Jasa Undangan Digital Pernikahan & Acara</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CSS Anda tetap sama, tidak ada perubahan */
+        /* ===== GLOBAL & VARIABEL WARNA ===== */
         :root {
             --primary-blue: #3377FF;
             --secondary-blue: #00A3FF;
@@ -694,15 +694,7 @@
         <section id="testimonials" class="page-section is-active-page">
             <div class="container" id="testimonials-container">
                 <h2 class="section-title">Apa Kata Mereka?</h2>
-                <div class="testimonial-card">
-                    <p>"Prosesnya cepat dan hasilnya memuaskan banget! Desainnya modern dan fiturnya lengkap. Teman-teman semua pada muji undangannya."</p>
-                    <div class="author">- Dinda & Roy, Medan</div>
                 </div>
-                <div class="testimonial-card">
-                    <p>"Adminnya responsif dan sangat membantu. Awalnya bingung mau pilih desain apa, tapi dibantu diarahkan sampai nemu yang pas. Recommended!"</p>
-                    <div class="author">- Sarah, Jakarta</div>
-                </div>
-            </div>
         </section>
         
         <section id="ulasan" class="page-section">
@@ -739,11 +731,7 @@
                     </form>
                     <div id="comments-list" style="margin-top: 30px;">
                         <h3 style="font-weight: 600; margin-bottom: 15px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">Komentar Terbaru:</h3>
-                        <div class="comment-card">
-                            <span class="comment-author">Sarah, Jakarta</span>
-                            <p class="comment-body">Adminnya responsif dan sangat membantu. Awalnya bingung mau pilih desain apa, tapi dibantu diarahkan sampai nemu yang pas. Recommended!</p>
-                        </div>
-                    </div>
+                         </div>
                 </div>
             </div>
         </section>
@@ -835,7 +823,7 @@
                     <span id="harga-template-terpilih"></span>
                 </h2>
                 <p style="text-align: center; max-width: 500px; margin: -20px auto 30px; color: var(--light-text);">Silakan lengkapi data di bawah ini untuk melakukan pemesanan.</p>
-                <form>
+                <form id="order-form">
                     <input type="hidden" id="template-pesanan" value="">
                     <input type="hidden" id="harga-pesanan" value="">
                     <div class="form-group">
@@ -862,7 +850,7 @@
             <div class="container">
                 <h2 class="section-title">Hubungi Kami</h2>
                 <p style="text-align: center; max-width: 500px; margin: -20px auto 30px; color: var(--light-text);">Punya pertanyaan umum? Jangan ragu untuk mengirim pesan.</p>
-                <form>
+                <form id="contact-form">
                     <div class="form-group">
                         <label for="nama-kontak">Nama Anda</label>
                         <input type="text" id="nama-kontak" placeholder="Masukkan nama lengkap" required>
@@ -899,12 +887,12 @@
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
       import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-      // Konfigurasi Firebase Anda
+      // Konfigurasi Firebase Anda yang sudah diperbaiki
       const firebaseConfig = {
         apiKey: "AIzaSyB9HaArMoR9By4kjaQ2s9uRqrkJsHU0Cp8",
         authDomain: "invitekamuid.firebaseapp.com",
         projectId: "invitekamuid",
-        storageBucket: "invitekamuid.appspot.com", // Perbaikan kecil: hapus .firebasestorage
+        storageBucket: "invitekamuid.appspot.com", // <-- INI BAGIAN YANG DIPERBAIKI
         messagingSenderId: "100771969641",
         appId: "1:100771969641:web:410e03dee431e9885e00f8",
         measurementId: "G-MQR5LSQJQN"
@@ -935,13 +923,11 @@
             const menuToggle = document.querySelector('.menu-toggle');
             const mobileNav = document.querySelector('.mobile-nav');
             
-            // Variabel untuk komentar & testimoni
             const commentForm = document.getElementById('comment-form');
             const commentsList = document.getElementById('comments-list');
             const testimonialsContainer = document.querySelector('#testimonials-container');
             const testimonialsTitle = testimonialsContainer.querySelector('h2');
             
-            // Variabel lainnya
             const faqItems = document.querySelectorAll('.faq-item');
             
             // === FUNGSI NAVIGASI HALAMAN ===
@@ -976,82 +962,145 @@
 
             menuToggle.addEventListener('click', () => mobileNav.classList.toggle('is-active'));
             
-            // === LOGIKA FIREBASE (MENGGUNAKAN VERSI BARU) ===
+            // === LOGIKA FIREBASE (Dijalankan setelah memastikan Firebase siap) ===
+            function initializeFirebaseLogic() {
+                if (window.firebaseDB) {
+                    const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } = window.firebaseDB;
 
-            // Cek apakah firebaseDB sudah siap
-            if (window.firebaseDB) {
-                const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } = window.firebaseDB;
-
-                // 1. FUNGSI UNTUK MEMBACA KOMENTAR SECARA REAL-TIME
-                function loadRealtimeComments() {
-                    const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
-                    
-                    onSnapshot(commentsQuery, (snapshot) => {
-                        // Kosongkan daftar sebelum diisi ulang
-                        commentsList.innerHTML = `<h3 style="font-weight: 600; margin-bottom: 15px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">Komentar Terbaru:</h3>`;
+                    function loadRealtimeComments() {
+                        const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
                         
-                        const existingTestimonials = testimonialsContainer.querySelectorAll('.testimonial-card.from-firebase');
-                        existingTestimonials.forEach(card => card.remove());
-
-                        snapshot.forEach((doc) => {
-                            const comment = doc.data();
+                        onSnapshot(commentsQuery, (snapshot) => {
+                            // Hapus komentar lama yang diambil dari Firebase sebelum menambahkan yang baru
+                            const existingFirebaseComments = document.querySelectorAll('.from-firebase');
+                            existingFirebaseComments.forEach(card => card.remove());
                             
-                            // Tampilkan di halaman "Ulasan"
-                            const commentHTML = `
-                                <div class="comment-card">
-                                    <span class="comment-author">${comment.name}</span>
-                                    <p class="comment-body">${comment.text}</p>
-                                </div>
-                            `;
-                            commentsList.insertAdjacentHTML('beforeend', commentHTML);
+                            const existingUlasanComments = commentsList.querySelectorAll('.comment-card');
+                            existingUlasanComments.forEach(card => card.remove());
 
-                            // Tampilkan di halaman utama (Testimonials)
-                            const testimonialHTML = `
-                                <div class="testimonial-card from-firebase">
-                                    <p>"${comment.text}"</p>
-                                    <div class="author">- ${comment.name}</div>
-                                </div>
-                            `;
-                            testimonialsTitle.insertAdjacentHTML('afterend', testimonialHTML);
+
+                            snapshot.forEach((doc) => {
+                                const comment = doc.data();
+                                
+                                // Tampilkan di halaman "Ulasan"
+                                const commentHTML = `
+                                    <div class="comment-card from-firebase">
+                                        <span class="comment-author">${comment.name}</span>
+                                        <p class="comment-body">${comment.text}</p>
+                                    </div>
+                                `;
+                                commentsList.insertAdjacentHTML('beforeend', commentHTML);
+
+                                // Tampilkan di halaman utama (Testimonials)
+                                const testimonialHTML = `
+                                    <div class="testimonial-card from-firebase">
+                                        <p>"${comment.text}"</p>
+                                        <div class="author">- ${comment.name}</div>
+                                    </div>
+                                `;
+                                testimonialsTitle.insertAdjacentHTML('afterend', testimonialHTML);
+                            });
                         });
-                    });
-                }
-
-                loadRealtimeComments();
-
-                // 2. FUNGSI UNTUK MENGIRIM KOMENTAR BARU KE FIREBASE
-                commentForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-
-                    const name = document.getElementById('commenter-name').value;
-                    const commentText = document.getElementById('commenter-text').value;
-
-                    try {
-                        await addDoc(collection(db, "comments"), {
-                            name: name,
-                            text: commentText,
-                            timestamp: serverTimestamp()
-                        });
-                        
-                        commentForm.reset();
-                        alert('Terima kasih! Komentar Anda telah berhasil dikirim.');
-                        showPage('#home');
-
-                    } catch (error) {
-                        console.error("Error adding document: ", error);
-                        alert('Maaf, terjadi kesalahan saat mengirim komentar.');
                     }
-                });
 
-            } else {
-                console.error("Firebase tidak terinisialisasi dengan benar.");
+                    loadRealtimeComments();
+
+                    commentForm.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        const name = document.getElementById('commenter-name').value;
+                        const commentText = document.getElementById('commenter-text').value;
+
+                        try {
+                            await addDoc(collection(db, "comments"), {
+                                name: name,
+                                text: commentText,
+                                timestamp: serverTimestamp()
+                            });
+                            
+                            commentForm.reset();
+                            alert('Terima kasih! Komentar Anda telah berhasil dikirim.');
+                            showPage('#home');
+
+                        } catch (error) {
+                            console.error("Error adding document: ", error);
+                            alert('Maaf, terjadi kesalahan saat mengirim komentar.');
+                        }
+                    });
+
+                } else {
+                    // Coba lagi setelah beberapa saat jika Firebase belum siap
+                    setTimeout(initializeFirebaseLogic, 100); 
+                }
             }
+
+            initializeFirebaseLogic();
             
             // === LOGIKA LAINNYA (TETAP SAMA) ===
             const standaloneStars = document.querySelectorAll('.rating-stars-standalone span');
             const submitRatingBtn = document.getElementById('submit-rating-btn');
-            // ... (sisa logika untuk rating, faq, order, dll tetap sama) ...
+            const ratingSuccessMessage = document.getElementById('rating-success-message');
+            let selectedRatingValue = 0;
+            
+            standaloneStars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    if (submitRatingBtn.disabled) return;
+                    resetStandaloneStars();
+                    const currentValue = this.dataset.value;
+                    for (let i = 0; i < currentValue; i++) {
+                        standaloneStars[i].innerHTML = '★';
+                    }
+                });
+                star.addEventListener('mouseout', function() {
+                    if (submitRatingBtn.disabled) return;
+                    resetStandaloneStars();
+                    if (selectedRatingValue > 0) {
+                        for (let i = 0; i < selectedRatingValue; i++) {
+                            standaloneStars[i].classList.add('selected');
+                            standaloneStars[i].innerHTML = '★';
+                        }
+                    }
+                });
+                star.addEventListener('click', function() {
+                    if (submitRatingBtn.disabled) return;
+                    selectedRatingValue = this.dataset.value;
+                    resetStandaloneStars();
+                    for (let i = 0; i < selectedRatingValue; i++) {
+                        standaloneStars[i].classList.add('selected');
+                        standaloneStars[i].innerHTML = '★';
+                    }
+                });
+            });
+
+            function resetStandaloneStars() {
+                standaloneStars.forEach(s => {
+                    s.classList.remove('selected');
+                    s.innerHTML = '☆';
+                });
+            }
+
+            submitRatingBtn.addEventListener('click', function() {
+                if (selectedRatingValue === 0) {
+                    alert('Mohon pilih jumlah bintang untuk penilaian Anda.');
+                    return;
+                }
+                ratingSuccessMessage.style.display = 'block';
+                submitRatingBtn.disabled = true;
+                submitRatingBtn.style.opacity = '0.7';
+                submitRatingBtn.style.cursor = 'not-allowed';
+            });
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const currentlyActive = document.querySelector('.faq-item.active');
+                    if (currentlyActive && currentlyActive !== item) {
+                        currentlyActive.classList.remove('active');
+                    }
+                    item.classList.toggle('active');
+                });
+            });
         });
     </script>
 </body>
-</html>
+
+    </html>
