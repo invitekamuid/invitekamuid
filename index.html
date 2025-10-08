@@ -376,15 +376,44 @@
             margin-bottom: 15px;
             border-left: 5px solid var(--secondary-blue);
         }
-        .comment-author {
-            display: block;
-            font-weight: 600;
-            font-size: 15px;
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
         }
+
+        .comment-author {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .comment-location {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .comment-category {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
         .comment-body {
             color: var(--light-text);
             font-size: 14px;
+        }
+
+        .comment-timestamp {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            color: var(--light-text);
+            margin-top: 10px;
         }
 
         .layanan-grid, .portfolio-grid {
@@ -428,12 +457,15 @@
         }
 
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
             font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            background-color: white;
         }
 
         .form-btn {
@@ -576,6 +608,52 @@
         .content-spacer {
             height: 80px;
         }
+
+        /* ===== CUSTOM ALERT MODAL STYLES ===== */
+        .custom-alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 15px;
+        }
+
+        .custom-alert-box {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .custom-alert-box .alert-icon {
+            margin-bottom: 15px;
+        }
+
+        .custom-alert-box h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 10px;
+        }
+        
+        .custom-alert-box p {
+            font-size: 15px;
+            color: var(--light-text);
+            margin-bottom: 25px;
+        }
+
+        .custom-alert-box button {
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -623,6 +701,9 @@
                         <div class="category-item" data-filter="ultah" data-placeholder="Contoh: Ulang Tahun Ke-5 Aira">
                             <span>Ulang Tahun</span>
                         </div>
+                        <div class="category-item" data-filter="ucapan-ultah" data-placeholder="Contoh: Selamat Ultah Budi!">
+                            <span>Ucapan Ultah</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -639,7 +720,7 @@
                             </div>
                             <div class="card-buttons">
                                 <a href="https://invitekamuid.github.io/DemoWedding-Invitation/" class="preview-btn" target="_blank">Preview</a>
-                                <a href="#order-section" class="order-btn" data-template="Elegan-Grey Wedding" data-price="Rp 20.000">Order</a>
+                                <a href="#" class="order-btn" data-template="Elegan-Grey Wedding" data-price="Rp 20.000" data-admin="6281200000001">Order</a>
                             </div>
                         </div>
                     </div>
@@ -654,7 +735,7 @@
                             </div>
                             <div class="card-buttons">
                                 <a href="https://invitekamuid.github.io/Previeeundangandigitalinteraktif/" class="preview-btn" target="_blank">Preview</a>
-                                <a href="#order-section" class="order-btn" data-template="Undangan Interaktif" data-price="Rp 20.000">Order</a>
+                                <a href="#" class="order-btn" data-template="Undangan Interaktif" data-price="Rp 20.000" data-admin="6281200000002">Order</a>
                             </div>
                         </div>
                     </div>
@@ -669,7 +750,7 @@
                             </div>
                             <div class="card-buttons">
                                 <a href="https://ganti-dengan-link-demo-asli.com/khitanan-alfatih" class="preview-btn" target="_blank">Preview</a>
-                                <a href="#order-section" class="order-btn" data-template="Khitanan Al-Fatih" data-price="Rp 55.000">Order</a>
+                                <a href="#" class="order-btn" data-template="Khitanan Al-Fatih" data-price="Rp 55.000" data-admin="6281200000003">Order</a>
                             </div>
                         </div>
                     </div>
@@ -683,7 +764,21 @@
                             </div>
                             <div class="card-buttons">
                                 <a href="https://ganti-dengan-link-demo-asli.com/aira-birthday" class="preview-btn" target="_blank">Preview</a>
-                                <a href="#order-section" class="order-btn" data-template="Aira's Birthday Party" data-price="Rp 45.000">Order</a>
+                                <a href="#" class="order-btn" data-template="Aira's Birthday Party" data-price="Rp 45.000" data-admin="6281200000004">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-card hidden" data-category="ucapan-ultah">
+                        <div class="card-image"><img src="https://i.imgur.com/5dZ4A3s.png" alt="Template Ucapan Ultah"></div>
+                        <div class="card-content">
+                            <h3>Kartu Ucapan Ultah Digital</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 50.000</span>
+                                <span>Rp 25.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://ganti-dengan-link-demo-asli.com/ucapan-ultah" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="order-btn" data-template="Kartu Ucapan Ultah" data-price="Rp 25.000" data-admin="6281200000005">Order</a>
                             </div>
                         </div>
                     </div>
@@ -694,7 +789,7 @@
         <section id="testimonials" class="page-section is-active-page">
             <div class="container" id="testimonials-container">
                 <h2 class="section-title">Apa Kata Mereka?</h2>
-                </div>
+            </div>
         </section>
         
         <section id="ulasan" class="page-section">
@@ -724,6 +819,20 @@
                             <input type="text" id="commenter-name" placeholder="Masukkan nama Anda" required>
                         </div>
                         <div class="form-group">
+                            <label for="commenter-location">Asal Kota</label>
+                            <input type="text" id="commenter-location" placeholder="Contoh: Medan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="commenter-category">Kategori Ulasan</label>
+                            <select id="commenter-category" required>
+                                <option value="" disabled selected>Pilih Kategori...</option>
+                                <option value="Pernikahan">Pernikahan</option>
+                                <option value="Khitanan">Khitanan</option>
+                                <option value="Ulang Tahun">Ulang Tahun</option>
+                                <option value="Ucapan Ultah">Ucapan Ultah</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="commenter-text">Komentar Anda</label>
                             <textarea id="commenter-text" rows="4" placeholder="Tulis komentar atau testimoni Anda di sini..." required></textarea>
                         </div>
@@ -731,7 +840,7 @@
                     </form>
                     <div id="comments-list" style="margin-top: 30px;">
                         <h3 style="font-weight: 600; margin-bottom: 15px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">Komentar Terbaru:</h3>
-                         </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -882,6 +991,17 @@
         </a>
     </footer>
 
+    <div id="custom-alert-overlay" class="custom-alert-overlay">
+        <div class="custom-alert-box">
+            <div class="alert-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="#28a745" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <h3>Berhasil!</h3>
+            <p id="custom-alert-message">Komentar Anda telah berhasil dikirim.</p>
+            <button id="custom-alert-close" class="form-btn">Tutup</button>
+        </div>
+    </div>
+
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
       import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -890,7 +1010,7 @@
         apiKey: "AIzaSyB9HaArMoR9By4kjaQ2s9uRqrkJsHU0Cp8",
         authDomain: "invitekamuid.firebaseapp.com",
         projectId: "invitekamuid",
-        storageBucket: "invitekamuid.appspot.com", // <-- INI BAGIAN YANG DIPERBAIKI
+        storageBucket: "invitekamuid.appspot.com",
         messagingSenderId: "100771969641",
         appId: "1:100771969641:web:410e03dee431e9885e00f8",
         measurementId: "G-MQR5LSQJQN"
@@ -923,6 +1043,28 @@
             const testimonialsTitle = testimonialsContainer.querySelector('h2');
             const faqItems = document.querySelectorAll('.faq-item');
             
+            const customAlertOverlay = document.getElementById('custom-alert-overlay');
+            const customAlertMessage = document.getElementById('custom-alert-message');
+            const customAlertCloseBtn = document.getElementById('custom-alert-close');
+            
+            function showCustomAlert(message, isSuccess = true) {
+                customAlertMessage.textContent = message;
+                customAlertOverlay.style.display = 'flex';
+            }
+
+            function hideCustomAlertAndReset() {
+                customAlertOverlay.style.display = 'none';
+                commentForm.reset();
+                showPage('#home');
+            }
+            
+            customAlertCloseBtn.addEventListener('click', hideCustomAlertAndReset);
+            customAlertOverlay.addEventListener('click', (e) => {
+                if (e.target === customAlertOverlay) {
+                    hideCustomAlertAndReset();
+                }
+            });
+
             function showPage(pageId) {
                 allPages.forEach(page => page.classList.remove('is-active-page'));
                 if (pageId === '#home') {
@@ -946,14 +1088,14 @@
                     e.preventDefault();
                     const pageId = this.getAttribute('href');
                     showPage(pageId);
-                    if(mobileNav.classList.contains('is-active')) {
+                    if (mobileNav.classList.contains('is-active')) {
                         mobileNav.classList.remove('is-active');
                     }
                 });
             });
 
             menuToggle.addEventListener('click', () => mobileNav.classList.toggle('is-active'));
-            
+
             const namaAcaraInput = document.getElementById('nama-acara');
             const categoryItems = document.querySelectorAll('.category-item');
             const templateCards = document.querySelectorAll('.template-card');
@@ -982,30 +1124,53 @@
 
             function initializeFirebaseLogic() {
                 if (window.firebaseDB) {
-                    const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } = window.firebaseDB;
+                    const {
+                        db,
+                        collection,
+                        addDoc,
+                        serverTimestamp,
+                        query,
+                        orderBy,
+                        onSnapshot
+                    } = window.firebaseDB;
 
                     function loadRealtimeComments() {
                         const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
-                        
+
                         onSnapshot(commentsQuery, (snapshot) => {
                             const existingFirebaseComments = document.querySelectorAll('.from-firebase');
                             existingFirebaseComments.forEach(card => card.remove());
-                            
+
                             snapshot.docs.forEach((doc) => {
                                 const comment = doc.data();
                                 
+                                let formattedDate = 'Baru saja';
+                                if (comment.timestamp) {
+                                    const date = comment.timestamp.toDate();
+                                    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                                    formattedDate = date.toLocaleDateString('id-ID', options).replace(/\./g, ':');
+                                }
+
                                 const commentHTML = `
                                     <div class="comment-card from-firebase">
-                                        <span class="comment-author">${comment.name}</span>
+                                        <div class="comment-header">
+                                            <div>
+                                                <span class="comment-author">${comment.name}</span>
+                                                <span class="comment-location">, ${comment.location || ''}</span>
+                                            </div>
+                                            <span class="comment-category">${comment.category || 'Ulasan'}</span>
+                                        </div>
                                         <p class="comment-body">${comment.text}</p>
+                                        <span class="comment-timestamp">${formattedDate}</span>
                                     </div>
                                 `;
+                                
                                 commentsList.insertAdjacentHTML('beforeend', commentHTML);
 
                                 const testimonialHTML = `
                                     <div class="testimonial-card from-firebase">
                                         <p>"${comment.text}"</p>
-                                        <div class="author">- ${comment.name}</div>
+                                        <div class="author">- ${comment.name}, ${comment.location}</div>
                                     </div>
                                 `;
                                 testimonialsTitle.insertAdjacentHTML('afterend', testimonialHTML);
@@ -1018,21 +1183,24 @@
                     commentForm.addEventListener('submit', async function(e) {
                         e.preventDefault();
                         const name = document.getElementById('commenter-name').value;
+                        const location = document.getElementById('commenter-location').value;
+                        const category = document.getElementById('commenter-category').value;
                         const commentText = document.getElementById('commenter-text').value;
 
                         try {
                             await addDoc(collection(db, "comments"), {
                                 name: name,
+                                location: location,
+                                category: category,
                                 text: commentText,
                                 timestamp: serverTimestamp()
                             });
                             
-                            commentForm.reset();
-                            alert('Terima kasih! Komentar Anda telah berhasil dikirim.');
-                            showPage('#home');
+                            showCustomAlert('Terima kasih! Komentar Anda telah berhasil dikirim.');
+
                         } catch (error) {
                             console.error("Error adding document: ", error);
-                            alert('Maaf, terjadi kesalahan saat mengirim komentar.');
+                            showCustomAlert('Maaf, terjadi kesalahan saat mengirim komentar.', false);
                         }
                     });
 
@@ -1041,12 +1209,12 @@
                 }
             }
             initializeFirebaseLogic();
-            
+
             const standaloneStars = document.querySelectorAll('.rating-stars-standalone span');
             const submitRatingBtn = document.getElementById('submit-rating-btn');
             const ratingSuccessMessage = document.getElementById('rating-success-message');
             let selectedRatingValue = 0;
-            
+
             standaloneStars.forEach(star => {
                 star.addEventListener('mouseover', function() { if (submitRatingBtn.disabled) return; resetStandaloneStars(); const currentValue = this.dataset.value; for (let i = 0; i < currentValue; i++) { standaloneStars[i].innerHTML = '★'; } });
                 star.addEventListener('mouseout', function() { if (submitRatingBtn.disabled) return; resetStandaloneStars(); if (selectedRatingValue > 0) { for (let i = 0; i < selectedRatingValue; i++) { standaloneStars[i].classList.add('selected'); standaloneStars[i].innerHTML = '★'; } } });
@@ -1062,7 +1230,7 @@
                 submitRatingBtn.style.opacity = '0.7';
                 submitRatingBtn.style.cursor = 'not-allowed';
             });
-            
+
             faqItems.forEach(item => {
                 const question = item.querySelector('.faq-question');
                 question.addEventListener('click', () => {
@@ -1072,23 +1240,62 @@
                 });
             });
 
+            // ===== FUNGSI UNTUK TOMBOL ORDER DENGAN NOMOR ADMIN BERBEDA =====
+            const templateOrderButtons = document.querySelectorAll('.template-card .order-btn');
+
+            templateOrderButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const templateName = this.dataset.template;
+                    const templatePrice = this.dataset.price;
+                    const adminNumber = this.dataset.admin; // Mengambil nomor WA dari data-admin
+
+                    if (!adminNumber) {
+                        alert('Nomor admin untuk produk ini tidak tersedia.');
+                        return;
+                    }
+
+                    let message = `*Pemesanan Undangan Digital*\n\n`;
+                    message += `Halo, saya tertarik untuk memesan template:\n\n`;
+                    message += `*Template:* ${templateName}\n`;
+                    message += `*Harga:* ${templatePrice}\n\n`;
+                    message += `Mohon informasinya lebih lanjut. Terima kasih!`;
+
+                    const whatsappURL = `https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`;
+
+                    window.open(whatsappURL, '_blank');
+                });
+            });
+
+            // Logika untuk form order di-nonaktifkan karena order langsung ke WA
+            // Anda bisa menghapus atau membiarkannya jika ingin digunakan lagi nanti
             const orderForm = document.getElementById('order-form');
-            if(orderForm){
+            if (orderForm) {
                 orderForm.addEventListener('submit', function(e){
-                     e.preventDefault();
-                    // Logika form order whatsapp
+                    e.preventDefault();
+                    alert('Untuk memesan, silakan klik tombol "Order" pada template yang Anda inginkan.');
                 });
             }
 
             const contactForm = document.getElementById('contact-form');
-            if(contactForm){
-                contactForm.addEventListener('submit', function(e){
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    // Logika form contact whatsapp
+                     const namaKontak = document.getElementById('nama-kontak').value;
+                     const pesanKontak = document.getElementById('pesan-kontak').value;
+                     const phoneNumber = '6281275623551';
+                     let message = `*Pertanyaan dari Pengunjung Website*\n\n`;
+                     message += `*Nama:* ${namaKontak}\n`;
+                     message += `*Pesan:* ${pesanKontak}`;
+                     
+                     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                     window.open(whatsappURL, '_blank');
+                     contactForm.reset();
                 });
             }
         });
     </script>
 </body>
 
-                </html>
+            </html>
