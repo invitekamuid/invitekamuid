@@ -1046,12 +1046,23 @@
                 }
             });
 
+            // ===== FUNGSI YANG DIPERBAIKI ADA DI SINI =====
             function showPage(pageId) {
                 allPages.forEach(page => page.classList.remove('is-active-page'));
-                const targetPage = document.querySelector(pageId);
-                if (targetPage) {
-                    targetPage.classList.add('is-active-page');
+                
+                // Logika khusus untuk menampilkan beberapa section di halaman utama
+                if (pageId === '#home') {
+                    document.querySelector('#home').classList.add('is-active-page');
+                    document.querySelector('#testimonials').classList.add('is-active-page');
+                    document.querySelector('#layanan').classList.add('is-active-page');
+                } else {
+                    // Logika untuk halaman lainnya
+                    const targetPage = document.querySelector(pageId);
+                    if (targetPage) {
+                        targetPage.classList.add('is-active-page');
+                    }
                 }
+                
                 window.scrollTo(0, 0);
                 bottomNavItems.forEach(item => {
                     item.classList.toggle('active', item.getAttribute('href') === pageId);
@@ -1221,4 +1232,4 @@
     </script>
 </body>
 
-</html>
+    </html>
