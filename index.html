@@ -1046,17 +1046,15 @@
                 }
             });
 
-            // ===== FUNGSI YANG DIPERBAIKI ADA DI SINI =====
+            // ===== FUNGSI UNTUK NAVIGASI HALAMAN =====
             function showPage(pageId) {
                 allPages.forEach(page => page.classList.remove('is-active-page'));
                 
-                // Logika khusus untuk menampilkan beberapa section di halaman utama
                 if (pageId === '#home') {
                     document.querySelector('#home').classList.add('is-active-page');
                     document.querySelector('#testimonials').classList.add('is-active-page');
                     document.querySelector('#layanan').classList.add('is-active-page');
                 } else {
-                    // Logika untuk halaman lainnya
                     const targetPage = document.querySelector(pageId);
                     if (targetPage) {
                         targetPage.classList.add('is-active-page');
@@ -1091,7 +1089,6 @@
                 });
             }
             
-            // Set filter to the first category on page load
             filterTemplates('pernikahan');
 
             categoryItems.forEach(item => {
@@ -1228,8 +1225,32 @@
                      contactForm.reset();
                 });
             }
+
+            // ===== KODE UNTUK MEMPERBAIKI FAQ =====
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    // Cek apakah item ini sudah aktif
+                    const isActive = item.classList.contains('active');
+                    
+                    // Tutup semua item lain terlebih dahulu (untuk UX yang lebih baik)
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('span').textContent = '+';
+                    });
+
+                    // Jika item yang diklik tadi belum aktif, maka buka item tersebut
+                    if (!isActive) {
+                        item.classList.add('active');
+                        question.querySelector('span').textContent = '-';
+                    }
+                });
+            });
+            // =======================================
+
         });
     </script>
 </body>
-
-                    </html>
+</html>
