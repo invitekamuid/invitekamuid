@@ -272,10 +272,19 @@
             z-index: 2;
         }
 
+        /* ===== CSS PERBAIKAN TINGGI GAMBAR ===== */
+        .card-image {
+            height: 180px; /* Atur tinggi wadah sesuai selera Anda */
+            overflow: hidden; /* Sembunyikan bagian gambar yang terpotong */
+        }
+
         .card-image img {
             width: 100%;
+            height: 100%; /* Buat gambar mengisi tinggi & lebar wadah */
+            object-fit: cover; /* Kunci utama: gambar menutupi wadah, sisa dipotong */
             display: block;
         }
+        /* ===== AKHIR DARI PERBAIKAN ===== */
 
         .card-content {
             padding: 12px;
@@ -680,7 +689,7 @@
         <div class="container">
             <a href="#home" class="logo">invitekamuid</a>
             <div class="menu-toggle">☰</div>
-        </div>
+        }
     </header>
 
     <nav class="mobile-nav">
@@ -810,12 +819,13 @@
                                 <span>Rp 25.000</span>
                             </div>
                             <div class="card-buttons">
-                                <a href="https://invitekamuid.github.io/Preview-A-Special-Birthday/" class="preview-btn" target="_blank">Preview</a>
+                                <a href="https://hbdid.github.io/Hbdqodryyyyy/" class="preview-btn" target="_blank">Preview</a>
                                 <a href="#" class="order-btn" data-template="Kartu Ucapan Ultah" data-price="Rp 25.000" data-admin="6281275623551">Order</a>
                             </div>
                         </div>
                     </div>
-                    </div>
+                    
+                </div>
             </div>
         </section>
         
@@ -1269,4 +1279,4 @@
         });
     </script>
 </body>
-    </html>
+            </html>
