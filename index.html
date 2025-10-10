@@ -34,6 +34,11 @@
             background-color: var(--bg-light);
             color: var(--dark-text);
         }
+        
+        /* Class untuk mencegah scroll saat chat layar penuh aktif */
+        body.chat-is-open {
+            overflow: hidden;
+        }
 
         .container {
             max-width: 1200px;
@@ -57,6 +62,19 @@
             font-weight: 800;
             color: var(--primary-blue);
             margin-bottom: 30px;
+        }
+
+        .review-count-badge {
+            display: inline-block;
+            background-color: var(--secondary-blue);
+            color: var(--white);
+            font-size: 16px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-left: 10px;
+            vertical-align: middle;
+            transform: translateY(-2px);
         }
         
         .page-section {
@@ -272,19 +290,17 @@
             z-index: 2;
         }
 
-        /* ===== CSS PERBAIKAN TINGGI GAMBAR ===== */
         .card-image {
-            height: 180px; /* Atur tinggi wadah sesuai selera Anda */
-            overflow: hidden; /* Sembunyikan bagian gambar yang terpotong */
+            height: 180px;
+            overflow: hidden;
         }
 
         .card-image img {
             width: 100%;
-            height: 100%; /* Buat gambar mengisi tinggi & lebar wadah */
-            object-fit: cover; /* Kunci utama: gambar menutupi wadah, sisa dipotong */
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
-        /* ===== AKHIR DARI PERBAIKAN ===== */
 
         .card-content {
             padding: 12px;
@@ -352,7 +368,6 @@
             border: 1px solid var(--primary-blue);
         }
 
-        .rating-standalone-container,
         .comment-standalone-container {
             background: var(--white);
             padding: 25px;
@@ -360,24 +375,6 @@
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             border: 1px solid var(--border-color);
-        }
-
-        .rating-stars-standalone {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            font-size: 40px;
-            cursor: pointer;
-        }
-
-        .rating-stars-standalone span {
-            color: #ccc;
-            transition: color 0.2s ease;
-        }
-
-        .rating-stars-standalone span:hover,
-        .rating-stars-standalone span.selected {
-            color: #FFD700;
         }
 
         .comment-card {
@@ -615,7 +612,6 @@
             height: 80px;
         }
 
-        /* ===== CUSTOM ALERT MODAL STYLES ===== */
         .custom-alert-overlay {
             position: fixed;
             top: 0;
@@ -623,7 +619,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            display: none; /* Hidden by default */
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 2000;
@@ -661,7 +657,6 @@
             width: 100%;
         }
 
-        /* Tombol Lihat Lebih Banyak */
         .view-more-btn {
             display: block;
             width: fit-content;
@@ -680,6 +675,268 @@
         .view-more-btn:hover {
             background-color: var(--bg-light);
         }
+        
+        .fab-container {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        body.chat-is-open .fab-container {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .contact-fab {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .fab-icon {
+            width: 55px;
+            height: 55px;
+            background-color: #25D366;
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .fab-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .fab-label {
+            background-color: var(--white);
+            color: var(--dark-text);
+            padding: 5px 12px;
+            border-radius: 6px;
+            margin-right: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            visibility: hidden;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.3s ease;
+        }
+
+        .contact-fab:hover .fab-label {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-fab:hover .fab-icon {
+            transform: scale(1.1);
+        }
+        
+        #cc-fab .fab-icon {
+            background-color: var(--primary-blue);
+        }
+        
+        .online-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 12px;
+            height: 12px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            box-shadow: 0 0 3px rgba(0,0,0,0.3);
+        }
+
+        /* ===== PERUBAHAN CSS: Style untuk Badge Notifikasi ===== */
+        .fab-notification-badge {
+            position: absolute;
+            top: -2px; /* Sedikit ke atas */
+            right: -2px; /* Sedikit ke kanan */
+            width: 22px;
+            height: 22px;
+            background-color: #FF3B30; /* Warna merah notifikasi */
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            border: 2px solid var(--white);
+            transform: scale(0); /* Mulai dari state tersembunyi */
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efek pop */
+            z-index: 2; /* Di atas indikator online */
+        }
+
+        .fab-notification-badge.visible {
+            transform: scale(1); /* Tampilkan badge */
+        }
+        /* ===== AKHIR PERUBAHAN CSS ===== */
+
+
+        /* ===== STYLE UNTUK LIVE CHAT LAYAR PENUH ===== */
+        .chat-widget {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--white);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 1100;
+            transform: translateY(100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s;
+        }
+
+        .chat-widget.is-open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chat-header {
+            background: var(--primary-blue);
+            color: var(--white);
+            padding: 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .chat-close-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+            padding: 5px;
+        }
+
+        .chat-content {
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #start-chat-form {
+            max-width: 400px;
+            margin: auto;
+            width: 100%;
+        }
+        #start-chat-form h4 {
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        #start-chat-form p {
+            text-align: center;
+            color: var(--light-text);
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        #chat-messages-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        #chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+            font-size: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-bottom-right-radius: 5px;
+            align-self: flex-end;
+        }
+
+        .admin-message {
+            background-color: var(--bg-light);
+            color: var(--dark-text);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+        }
+        
+        .chat-input-form {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            flex-shrink: 0;
+            background-color: var(--white);
+        }
+
+        #chat-input {
+            flex-grow: 1;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 10px 18px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+        #chat-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        #chat-send-btn {
+            background: var(--primary-blue);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+        #chat-send-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -690,6 +947,7 @@
             <a href="#home" class="logo">invitekamuid</a>
             <div class="menu-toggle">☰</div>
         
+        </div>
     </header>
 
     <nav class="mobile-nav">
@@ -719,16 +977,16 @@
             <div class="categories-section">
                 <div class="container">
                     <div class="category-scroll">
-                        <div class="category-item active" data-filter="pernikahan" data-placeholder="Contoh: Pernikahan Dinda & Roy">
+                        <div class="category-item active" data-filter="pernikahan">
                             <span>Pernikahan</span>
                         </div>
-                        <div class="category-item" data-filter="khitanan" data-placeholder="Contoh: Khitanan & Aqiqah M. Al Fatih">
+                        <div class="category-item" data-filter="khitanan">
                             <span>Khitanan</span>
                         </div>
-                        <div class="category-item" data-filter="ultah" data-placeholder="Contoh: Ulang Tahun Ke-5 Aira">
+                        <div class="category-item" data-filter="ultah">
                             <span>Ulang Tahun</span>
                         </div>
-                        <div class="category-item" data-filter="ucapan-ultah" data-placeholder="Contoh: Selamat Ultah Budi!">
+                        <div class="category-item" data-filter="ucapan-ultah">
                             <span>Ucapan Ultah</span>
                         </div>
                     </div>
@@ -776,7 +1034,7 @@
                                 <span>Rp 55.000</span>
                             </div>
                             <div class="card-buttons">
-                                <a href="https://ganti-dengan-link-demo-asli.com/khitanan-alfatih" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="preview-btn" target="_blank">Preview</a>
                                 <a href="#" class="order-btn" data-template="Khitanan Al-Fatih" data-price="Rp 55.000" data-admin="6281200000003">Order</a>
                             </div>
                         </div>
@@ -790,7 +1048,7 @@
                                 <span>Rp 45.000</span>
                             </div>
                             <div class="card-buttons">
-                                <a href="https://ganti-dengan-link-demo-asli.com/aira-birthday" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="preview-btn" target="_blank">Preview</a>
                                 <a href="#" class="order-btn" data-template="Aira's Birthday Party" data-price="Rp 45.000" data-admin="6281200000004">Order</a>
                             </div>
                         </div>
@@ -829,7 +1087,6 @@
             </div>
         </section>
         
-
         <section id="testimonials" class="page-section is-active-page">
             <div class="container" id="testimonials-container">
                 <h2 class="section-title">Apa Kata Mereka?</h2>
@@ -840,9 +1097,8 @@
         <section id="ulasan" class="page-section">
             <div class="container">
                 <div class="comment-standalone-container">
-                    <h2 class="section-title" style="margin-bottom: 20px;">Semua Ulasan</h2>
-                    <div id="comments-list">
-                        </div>
+                    <h2 class="section-title" id="ulasan-title" style="margin-bottom: 20px;">Semua Ulasan</h2>
+                    <div id="comments-list"></div>
                 </div>
             </div>
         </section>
@@ -999,6 +1255,22 @@
         </a>
     </footer>
 
+    <div class="fab-container">
+        <div class="contact-fab" id="cc-fab">
+            <span class="fab-label">Live Chat Support</span>
+            <div class="fab-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3C6.486 3 2 7.486 2 13v2a1 1 0 0 0 1 1h2v3.082A8.993 8.993 0 0 0 12 21a8.993 8.993 0 0 0 7-1.918V16h2a1 1 0 0 0 1-1v-2c0-5.514-4.486-10-10-10zm0 16c-3.783 0-6.92-2.962-7-6.718v-1.364c0-3.703 2.82-6.918 6.5-6.918c3.925 0 6.5 3.525 6.5 7v1c0 3.925-2.575 7-6.5 7zm2-6h--4v-2h4v2z"/></svg>
+                <span class="online-indicator"></span>
+                <span class="fab-notification-badge"></span> </div>
+        </div>
+        <a href="https://wa.me/6281275623551?text=Halo, saya mau bertanya terkait pemesanan (Order Service)." target="_blank" class="contact-fab" id="cs-fab">
+            <span class="fab-label">Order Service</span>
+             <div class="fab-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19.05 4.94A9.96 9.96 0 0 0 12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.45 1.27 4.94L2.05 22l5.06-1.22A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10c0-2.73-1.09-5.2-2.95-7.06zm-7.07 14.28c-1.48 0-2.92-.49-4.1-1.37l-.29-.17l-3.06.75l.77-2.98l-.19-.3a8.03 8.03 0 0 1-1.39-4.22c0-4.42 3.59-8 8.02-8s8.02 3.58 8.02 8c0 4.42-3.59 8-8.02 8zm4.43-5.01c-.24-.12-1.43-.7-1.65-.78c-.23-.08-.39-.12-.56.12c-.17.24-.62.78-.76.93c-.14.15-.28.17-.52.05c-.24-.12-1-.37-1.9-1.17c-.71-.63-1.18-1.41-1.32-1.65c-.14-.24-.01-.37.11-.49c.1-.1.24-.28.36-.42c.12-.14.16-.24.24-.4c.08-.16.04-.3-.02-.42c-.06-.12-.56-1.34-.76-1.84c-.2-.48-.4-.42-.55-.42h-.48c-.17 0-.44.06-.68.3c-.24.24-.93.9-1.12 2.14c-.2 1.24.2 2.48.34 2.66c.14.18 1.18 1.81 2.86 2.53c1.68.72 1.68.48 1.98.45c.3-.03.96-.39 1.1-.77c.14-.37.14-.69.1-.77c-.05-.08-.17-.12-.41-.24z"/></svg>
+            </div>
+        </a>
+    </div>
+    
     <div id="custom-alert-overlay" class="custom-alert-overlay">
         <div class="custom-alert-box">
             <div class="alert-icon">
@@ -1009,10 +1281,37 @@
             <button id="custom-alert-close" class="form-btn">Tutup</button>
         </div>
     </div>
+    
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header">
+            <span>Live Chat Support</span>
+            <button class="chat-close-btn" id="chat-close-btn">&times;</button>
+        </div>
+        
+        <div class="chat-content" id="chat-content">
+            <form id="start-chat-form">
+                 <h4>Mulai Obrolan</h4>
+                 <p>Masukkan nama Anda untuk memulai percakapan dengan kami.</p>
+                 <div class="form-group">
+                    <input type="text" id="user-name-input" placeholder="Nama Anda..." required>
+                 </div>
+                 <button type="submit" class="form-btn">Mulai Chat</button>
+            </form>
+            <div id="chat-messages-container" style="display: none;">
+                 <div id="chat-messages"></div>
+            </div>
+        </div>
 
+        <form class="chat-input-form" id="chat-input-form" style="display: none;">
+            <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off">
+            <button type="submit" id="chat-send-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z"/></svg>
+            </button>
+        </form>
+    </div>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-      import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyB9HaArMoR9By4kjaQ2s9uRqrkJsHU0Cp8",
@@ -1031,6 +1330,8 @@
         db,
         collection,
         addDoc,
+        doc,
+        setDoc,
         serverTimestamp,
         query,
         orderBy,
@@ -1072,7 +1373,6 @@
                 }
             });
 
-            // ===== FUNGSI UNTUK NAVIGASI HALAMAN =====
             function showPage(pageId) {
                 allPages.forEach(page => page.classList.remove('is-active-page'));
                 
@@ -1125,102 +1425,7 @@
                     filterTemplates(filterValue);
                 });
             });
-
-            function initializeFirebaseLogic() {
-                if (window.firebaseDB) {
-                    const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit } = window.firebaseDB;
-
-                    function loadTestimonials() {
-                        const testimonialsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"), limit(5));
-                        onSnapshot(testimonialsQuery, (snapshot) => {
-                            const existingTestimonials = testimonialsContainer.querySelectorAll('.testimonial-card');
-                            existingTestimonials.forEach(card => card.remove());
-
-                            snapshot.docs.forEach((doc) => {
-                                const comment = doc.data();
-                                const testimonialHTML = `
-                                    <div class="testimonial-card">
-                                        <p>"${comment.text}"</p>
-                                        <div class="author">- ${comment.name}, ${comment.location}</div>
-                                    </div>
-                                `;
-                                viewMoreBtn.insertAdjacentHTML('beforebegin', testimonialHTML);
-                            });
-
-                            if (snapshot.docs.length > 4) {
-                                viewMoreBtn.style.display = 'block';
-                            } else {
-                                viewMoreBtn.style.display = 'none';
-                            }
-                        });
-                    }
-                    
-                    function loadAllComments() {
-                        const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
-                        onSnapshot(commentsQuery, (snapshot) => {
-                            commentsList.innerHTML = ''; 
-                            if(snapshot.empty){
-                                commentsList.innerHTML = '<p style="text-align:center; color: var(--light-text);">Belum ada ulasan.</p>';
-                                return;
-                            }
-                            snapshot.docs.forEach((doc) => {
-                                const comment = doc.data();
-                                let formattedDate = 'Baru saja';
-                                if (comment.timestamp) {
-                                    const date = comment.timestamp.toDate();
-                                    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-                                    formattedDate = date.toLocaleDateString('id-ID', options).replace(/\./g, ':');
-                                }
-                                const commentHTML = `
-                                    <div class="comment-card">
-                                        <div class="comment-header">
-                                            <div>
-                                                <span class="comment-author">${comment.name}</span>
-                                                <span class="comment-location">, ${comment.location || ''}</span>
-                                            </div>
-                                            <span class="comment-category">${comment.category || 'Ulasan'}</span>
-                                        </div>
-                                        <p class="comment-body">${comment.text}</p>
-                                        <span class="comment-timestamp">${formattedDate}</span>
-                                    </div>
-                                `;
-                                commentsList.insertAdjacentHTML('beforeend', commentHTML);
-                            });
-                        });
-                    }
-
-                    loadTestimonials();
-                    loadAllComments();
-
-                    commentForm.addEventListener('submit', async function(e) {
-                        e.preventDefault();
-                        const name = document.getElementById('commenter-name').value;
-                        const location = document.getElementById('commenter-location').value;
-                        const category = document.getElementById('commenter-category').value;
-                        const commentText = document.getElementById('commenter-text').value;
-
-                        try {
-                            await addDoc(collection(db, "comments"), { name, location, category, text: commentText, timestamp: serverTimestamp() });
-                            showCustomAlert('Terima kasih! Komentar Anda telah berhasil dikirim.');
-                        } catch (error) {
-                            console.error("Error adding document: ", error);
-                            showCustomAlert('Maaf, terjadi kesalahan saat mengirim komentar.');
-                        }
-                    });
-
-                } else {
-                    setTimeout(initializeFirebaseLogic, 100);
-                }
-            }
-            initializeFirebaseLogic();
             
-            viewMoreBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                showPage('#ulasan');
-                document.querySelector('.nav-item.active').classList.remove('active');
-                document.querySelector('.nav-item[href="#ulasan"]').classList.add('active');
-            });
-
             const templateOrderButtons = document.querySelectorAll('.template-card .order-btn');
             templateOrderButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
@@ -1242,41 +1447,232 @@
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                     const namaKontak = document.getElementById('nama-kontak').value;
-                     const pesanKontak = document.getElementById('pesan-kontak').value;
-                     const phoneNumber = '6281275623551'; 
-                     let message = `*Pertanyaan dari Pengunjung Website*\n\n*Nama:* ${namaKontak}\n*Pesan:* ${pesanKontak}`;
-                     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-                     window.open(whatsappURL, '_blank');
-                     contactForm.reset();
+                      const namaKontak = document.getElementById('nama-kontak').value;
+                      const pesanKontak = document.getElementById('pesan-kontak').value;
+                      const phoneNumber = '6281275623551'; 
+                      let message = `*Pertanyaan dari Pengunjung Website*\n\n*Nama:* ${namaKontak}\n*Pesan:* ${pesanKontak}`;
+                      const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappURL, '_blank');
+                      contactForm.reset();
                 });
             }
-
-            // ===== KODE UNTUK MEMPERBAIKI FAQ =====
+            
             const faqItems = document.querySelectorAll('.faq-item');
-
             faqItems.forEach(item => {
                 const question = item.querySelector('.faq-question');
                 question.addEventListener('click', () => {
-                    // Cek apakah item ini sudah aktif
                     const isActive = item.classList.contains('active');
-                    
-                    // Tutup semua item lain terlebih dahulu (untuk UX yang lebih baik)
                     faqItems.forEach(otherItem => {
                         otherItem.classList.remove('active');
                         otherItem.querySelector('span').textContent = '+';
                     });
-
-                    // Jika item yang diklik tadi belum aktif, maka buka item tersebut
                     if (!isActive) {
                         item.classList.add('active');
                         question.querySelector('span').textContent = '-';
                     }
                 });
             });
-            // =======================================
 
+            function initializeFirebaseLogic() {
+                if (window.firebaseDB) {
+                    const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit, doc, setDoc } = window.firebaseDB;
+
+                    function loadTestimonials() {
+                        const testimonialsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"), limit(5));
+                        onSnapshot(testimonialsQuery, (snapshot) => {
+                            const existingTestimonials = testimonialsContainer.querySelectorAll('.testimonial-card');
+                            existingTestimonials.forEach(card => card.remove());
+                            snapshot.docs.forEach((doc) => {
+                                const comment = doc.data();
+                                const testimonialHTML = `<div class="testimonial-card"><p>"${comment.text}"</p><div class="author">- ${comment.name}, ${comment.location}</div></div>`;
+                                viewMoreBtn.insertAdjacentHTML('beforebegin', testimonialHTML);
+                            });
+                            viewMoreBtn.style.display = snapshot.docs.length > 4 ? 'block' : 'none';
+                        });
+                    }
+                    
+                    function loadAllComments() {
+                        const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+                        const ulasanTitle = document.getElementById('ulasan-title'); 
+                        onSnapshot(commentsQuery, (snapshot) => {
+                            const totalUlasan = snapshot.size;
+                            ulasanTitle.innerHTML = `Semua Ulasan <span class="review-count-badge">${totalUlasan}</span>`; 
+                            commentsList.innerHTML = ''; 
+                            if(snapshot.empty){
+                                commentsList.innerHTML = '<p style="text-align:center; color: var(--light-text);">Belum ada ulasan.</p>';
+                                return;
+                            }
+                            snapshot.docs.forEach((doc) => {
+                                const comment = doc.data();
+                                let formattedDate = 'Baru saja';
+                                if (comment.timestamp) {
+                                    const date = comment.timestamp.toDate();
+                                    formattedDate = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).replace(/\./g, ':');
+                                }
+                                const commentHTML = `<div class="comment-card"><div class="comment-header"><div><span class="comment-author">${comment.name}</span><span class="comment-location">, ${comment.location || ''}</span></div><span class="comment-category">${comment.category || 'Ulasan'}</span></div><p class="comment-body">${comment.text}</p><span class="comment-timestamp">${formattedDate}</span></div>`;
+                                commentsList.insertAdjacentHTML('beforeend', commentHTML);
+                            });
+                        });
+                    }
+                    loadTestimonials();
+                    loadAllComments();
+                    commentForm.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        const name = document.getElementById('commenter-name').value;
+                        const location = document.getElementById('commenter-location').value;
+                        const category = document.getElementById('commenter-category').value;
+                        const commentText = document.getElementById('commenter-text').value;
+
+                        try {
+                            await addDoc(collection(db, "comments"), { name, location, category, text: commentText, timestamp: serverTimestamp() });
+                            showCustomAlert('Terima kasih! Komentar Anda telah berhasil dikirim.');
+                        } catch (error) {
+                            showCustomAlert('Maaf, terjadi kesalahan saat mengirim komentar.');
+                        }
+                    });
+
+                    // ===== PERUBAHAN JAVASCRIPT DIMULAI DI SINI =====
+                    const liveChatFab = document.getElementById('cc-fab');
+                    const notificationBadge = liveChatFab.querySelector('.fab-notification-badge'); // Ambil elemen badge
+                    const chatWidget = document.getElementById('chat-widget');
+                    const closeChatBtn = document.getElementById('chat-close-btn');
+                    const startChatForm = document.getElementById('start-chat-form');
+                    const chatInputForm = document.getElementById('chat-input-form');
+                    const chatMessagesContainer = document.getElementById('chat-messages-container');
+                    const chatMessages = document.getElementById('chat-messages');
+                    const userNameInput = document.getElementById('user-name-input');
+                    const chatInput = document.getElementById('chat-input');
+                    
+                    let currentChatId = localStorage.getItem('chatId');
+                    let unsubscribeChat; 
+                    let unreadCount = 0; // Variabel untuk menghitung pesan belum dibaca
+
+                    function showChatInterface() {
+                        startChatForm.style.display = 'none';
+                        chatMessagesContainer.style.display = 'flex';
+                        chatInputForm.style.display = 'flex';
+                    }
+                    
+                    function showStartForm() {
+                        startChatForm.style.display = 'block';
+                        chatMessagesContainer.style.display = 'none';
+                        chatInputForm.style.display = 'none';
+                    }
+                    
+                    function listenToMessages(chatId) {
+                        if (unsubscribeChat) unsubscribeChat(); 
+                        
+                        const messagesQuery = query(collection(db, `live_chats/${chatId}/messages`), orderBy("timestamp"));
+                        unsubscribeChat = onSnapshot(messagesQuery, (snapshot) => {
+                            
+                            // Logika untuk notifikasi pesan baru dari admin
+                            snapshot.docChanges().forEach((change) => {
+                                if (change.type === "added") {
+                                    const msg = change.doc.data();
+                                    // Tambah hitungan hanya jika pesan dari admin dan jendela chat sedang tidak terbuka
+                                    if (msg.sender === 'admin' && !chatWidget.classList.contains('is-open')) {
+                                        unreadCount++;
+                                    }
+                                }
+                            });
+
+                            // Perbarui tampilan badge notifikasi
+                            if (unreadCount > 0) {
+                                notificationBadge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+                                notificationBadge.classList.add('visible');
+                            } else {
+                                notificationBadge.classList.remove('visible');
+                            }
+
+                            // Render semua pesan di dalam jendela chat
+                            chatMessages.innerHTML = '';
+                            snapshot.forEach((doc) => {
+                                const msg = doc.data();
+                                const messageDiv = document.createElement('div');
+                                messageDiv.classList.add('message', msg.sender === 'user' ? 'user-message' : 'admin-message');
+                                messageDiv.textContent = msg.text;
+                                chatMessages.appendChild(messageDiv);
+                            });
+                            
+                            // Auto-scroll ke bawah hanya jika chat sedang terbuka
+                            if (chatWidget.classList.contains('is-open')) {
+                                const chatContent = document.getElementById('chat-content');
+                                chatContent.scrollTop = chatContent.scrollHeight;
+                            }
+                        });
+                    }
+
+                    liveChatFab.addEventListener('click', () => {
+                        chatWidget.classList.add('is-open');
+                        document.body.classList.add('chat-is-open');
+
+                        // Reset notifikasi saat chat dibuka
+                        unreadCount = 0;
+                        notificationBadge.classList.remove('visible');
+                        notificationBadge.textContent = '';
+                    });
+                    
+                    closeChatBtn.addEventListener('click', () => {
+                        chatWidget.classList.remove('is-open');
+                        document.body.classList.remove('chat-is-open');
+                    });
+                    
+                    startChatForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const userName = userNameInput.value.trim();
+                        if (!userName) return;
+
+                        const newChatId = 'chat_' + Date.now() + Math.random().toString(36).substring(2, 9);
+                        currentChatId = newChatId;
+
+                        await setDoc(doc(db, "live_chats", newChatId), {
+                            userName: userName,
+                            startedAt: serverTimestamp(),
+                            status: "open" // Menambahkan status chat
+                        });
+
+                        localStorage.setItem('chatId', newChatId);
+                        localStorage.setItem('userName', userName);
+                        
+                        showChatInterface();
+                        listenToMessages(newChatId);
+                    });
+
+                    chatInputForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const text = chatInput.value.trim();
+                        if (!text || !currentChatId) return;
+                        
+                        chatInput.value = '';
+                        await addDoc(collection(db, `live_chats/${currentChatId}/messages`), {
+                            text: text,
+                            sender: 'user',
+                            timestamp: serverTimestamp()
+                        });
+                        // Update status bahwa ada pesan baru dari user
+                        await setDoc(doc(db, "live_chats", currentChatId), { hasNewUserMessage: true }, { merge: true });
+                    });
+                    
+                    if (currentChatId) {
+                        showChatInterface();
+                        listenToMessages(currentChatId);
+                    } else {
+                        showStartForm();
+                    }
+                    // ===== AKHIR PERUBAHAN JAVASCRIPT =====
+
+                } else {
+                    setTimeout(initializeFirebaseLogic, 100);
+                }
+            }
+            initializeFirebaseLogic();
+            
+            viewMoreBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('#ulasan');
+                document.querySelector('.nav-item[href="#ulasan"]').classList.add('active');
+            });
         });
     </script>
 </body>
-                                </html>
+                            </html>
