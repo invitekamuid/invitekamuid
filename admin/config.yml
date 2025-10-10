@@ -1,0 +1,26 @@
+backend:
+  name: git-gateway
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "templates"
+    label: "Template Undangan"
+    file: "_data/templates.json"
+    label_singular: "Template"
+    description: "Kumpulan semua template undangan yang dijual"
+    create: true
+    fields:
+      - label: "Daftar Template"
+        name: "items"
+        widget: "list"
+        fields:
+          - {label: "Nama Template", name: "name", widget: "string"}
+          - {label: "Kategori", name: "category", widget: "select", options: ["pernikahan", "khitanan", "ultah", "ucapan-ultah"]}
+          - {label: "Harga Asli", name: "originalPrice", widget: "string", required: false}
+          - {label: "Harga Diskon", name: "price", widget: "string"}
+          - {label: "URL Gambar", name: "imageUrl", widget: "string"}
+          - {label: "URL Preview", name: "previewUrl", widget: "string"}
+          - {label: "Nomor Admin WA", name: "adminNumber", widget: "string"}
+          - {label: "Label Khusus (Opsional)", name: "label", widget: "string", required: false}
