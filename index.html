@@ -7,7 +7,7 @@
     <title>invitekamuid - Jasa Undangan Digital Pernikahan & Acara</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CSS Anda tidak perlu diubah, jadi saya singkat di sini agar tidak terlalu panjang */
+        /* ===== GLOBAL & VARIABEL WARNA ===== */
         :root {
             --primary-blue: #3377FF;
             --secondary-blue: #00A3FF;
@@ -35,6 +35,7 @@
             color: var(--dark-text);
         }
         
+        /* Class untuk mencegah scroll saat chat layar penuh aktif */
         body.chat-is-open {
             overflow: hidden;
         }
@@ -762,13 +763,14 @@
             box-shadow: 0 0 3px rgba(0,0,0,0.3);
         }
 
+        /* ===== PERUBAHAN CSS: Style untuk Badge Notifikasi ===== */
         .fab-notification-badge {
             position: absolute;
-            top: -2px;
-            right: -2px;
+            top: -2px; /* Sedikit ke atas */
+            right: -2px; /* Sedikit ke kanan */
             width: 22px;
             height: 22px;
-            background-color: #FF3B30;
+            background-color: #FF3B30; /* Warna merah notifikasi */
             color: var(--white);
             border-radius: 50%;
             display: flex;
@@ -777,15 +779,18 @@
             font-size: 12px;
             font-weight: 700;
             border: 2px solid var(--white);
-            transform: scale(0);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 2;
+            transform: scale(0); /* Mulai dari state tersembunyi */
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efek pop */
+            z-index: 2; /* Di atas indikator online */
         }
 
         .fab-notification-badge.visible {
-            transform: scale(1);
+            transform: scale(1); /* Tampilkan badge */
         }
+        /* ===== AKHIR PERUBAHAN CSS ===== */
 
+
+        /* ===== STYLE UNTUK LIVE CHAT LAYAR PENUH ===== */
         .chat-widget {
             position: fixed;
             top: 0;
@@ -989,7 +994,96 @@
             </div>
             <div class="container">
                 <div class="template-grid">
+                    <div class="template-card" data-category="pernikahan">
+                        <div class="template-label">Paling Laris</div>
+                        <div class="card-image"><img src="Wedding Invitation.jpg" alt="Wedding Invitation"></div>
+                        <div class="card-content">
+                            <h3>Wedding Invitation</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 75.000</span>
+                                <span>Rp 20.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://invitekamuid.github.io/DemoWedding-Invitation/" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="order-btn" data-template="Wedding Invitation" data-price="Rp 20.000" data-admin="6281275623551">Order</a>
+                            </div>
+                        </div>
                     </div>
+                    <div class="template-card" data-category="pernikahan">
+                        <div class="template-label">Elegan</div>
+                        <div class="card-image"><img src="Interaktifundangan.jpg" alt="Undangan Interaktif"></div>
+                        <div class="card-content">
+                            <h3>Undangan Interaktif</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 85.000</span>
+                                <span>Rp 20.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://invitekamuid.github.io/Previeeundangandigitalinteraktif/" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="order-btn" data-template="Undangan Interaktif" data-price="Rp 20.000" data-admin="62895393394845">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-card hidden" data-category="khitanan">
+                        <div class="template-label">Islami</div>
+                        <div class="card-image"><img src="https://i.imgur.com/3Y2Qf0C.png" alt="Template Black Java"></div>
+                        <div class="card-content">
+                            <h3>Khitanan Al-Fatih</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 80.000</span>
+                                <span>Rp 55.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="#" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="order-btn" data-template="Khitanan Al-Fatih" data-price="Rp 55.000" data-admin="6281200000003">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-card hidden" data-category="ultah">
+                        <div class="card-image"><img src="https://i.imgur.com/w2G9b3P.png" alt="Template White Gold"></div>
+                        <div class="card-content">
+                            <h3>Aira's Birthday Party</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 65.000</span>
+                                <span>Rp 45.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="#" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="order-btn" data-template="Aira's Birthday Party" data-price="Rp 45.000" data-admin="6281200000004">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="template-card hidden" data-category="ucapan-ultah">
+                        <div class="card-image"><img src="Glow Greetings.jpg" alt="Glow Greetings"></div>
+                        <div class="card-content">
+                            <h3>Glow Greetings</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 50.000</span>
+                                <span>Rp 25.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://hbdid.github.io/Hbdqodryyyyy/" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="order-btn" data-template="Kartu Ucapan Ultah" data-price="Rp 25.000" data-admin="6281275623551">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-card hidden" data-category="ucapan-ultah">
+                        <div class="card-image"><img src="A Special Birthday.jpg" alt="A Special Birthday"></div>
+                        <div class="card-content">
+                            <h3>A Special Birthday</h3>
+                            <div class="price">
+                                <span class="original-price">Rp 59.000</span>
+                                <span>Rp 25.000</span>
+                            </div>
+                            <div class="card-buttons">
+                                <a href="https://invitekamuid.github.io/Preview-A-Special-Birthday/" class="preview-btn" target="_blank">Preview</a>
+                                <a href="#" class="order-btn" data-template="Kartu Ucapan Ultah" data-price="Rp 25.000" data-admin="6281275623551">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
         </section>
         
@@ -1215,7 +1309,6 @@
             </button>
         </form>
     </div>
-
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
       import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -1233,7 +1326,6 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      // Membuat variabel global agar bisa diakses script lain
       window.firebaseDB = {
         db,
         collection,
@@ -1247,255 +1339,183 @@
         limit
       };
     </script>
-    
+
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- DEKLARASI VARIABEL AWAL ---
-        const allPages = document.querySelectorAll('.page-section');
-        const navLinks = document.querySelectorAll('.mobile-nav a, .bottom-nav a, .logo');
-        const bottomNavItems = document.querySelectorAll('.bottom-nav .nav-item');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mobileNav = document.querySelector('.mobile-nav');
-        const customAlertOverlay = document.getElementById('custom-alert-overlay');
-        const customAlertMessage = document.getElementById('custom-alert-message');
-        const customAlertCloseBtn = document.getElementById('custom-alert-close');
-        const categoryItems = document.querySelectorAll('.category-item');
-        const contactForm = document.getElementById('contact-form');
-        const faqItems = document.querySelectorAll('.faq-item');
-        const viewMoreBtn = document.getElementById('view-more-reviews');
-
-        // --- FUNGSI-FUNGSI UTAMA ---
-
-        // Fungsi untuk menampilkan halaman
-        function showPage(pageId) {
-            allPages.forEach(page => page.classList.remove('is-active-page'));
-            if (pageId === '#home') {
-                document.querySelector('#home').classList.add('is-active-page');
-                document.querySelector('#testimonials').classList.add('is-active-page');
-                document.querySelector('#layanan').classList.add('is-active-page');
-            } else {
-                const targetPage = document.querySelector(pageId);
-                if (targetPage) {
-                    targetPage.classList.add('is-active-page');
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            const allPages = document.querySelectorAll('.page-section');
+            const navLinks = document.querySelectorAll('.mobile-nav a, .bottom-nav a, .logo');
+            const bottomNavItems = document.querySelectorAll('.bottom-nav .nav-item');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const commentForm = document.getElementById('comment-form');
+            const commentsList = document.getElementById('comments-list');
+            const testimonialsContainer = document.getElementById('testimonials-container');
+            const viewMoreBtn = document.getElementById('view-more-reviews');
+            const customAlertOverlay = document.getElementById('custom-alert-overlay');
+            const customAlertMessage = document.getElementById('custom-alert-message');
+            const customAlertCloseBtn = document.getElementById('custom-alert-close');
+            
+            function showCustomAlert(message) {
+                customAlertMessage.textContent = message;
+                customAlertOverlay.style.display = 'flex';
             }
-            window.scrollTo(0, 0);
-            bottomNavItems.forEach(item => {
-                item.classList.toggle('active', item.getAttribute('href') === pageId);
-            });
-        }
 
-        // Fungsi untuk memfilter template berdasarkan kategori
-        function filterTemplates(category) {
-            const templateCards = document.querySelectorAll('.template-card');
-            templateCards.forEach(card => {
-                // Tampilkan card jika kategori cocok, sembunyikan jika tidak
-                card.style.display = card.dataset.category === category ? 'flex' : 'none';
+            function hideCustomAlertAndReset() {
+                customAlertOverlay.style.display = 'none';
+                commentForm.reset();
+                showPage('#home');
+            }
+            
+            customAlertCloseBtn.addEventListener('click', hideCustomAlertAndReset);
+            customAlertOverlay.addEventListener('click', (e) => {
+                if (e.target === customAlertOverlay) {
+                    hideCustomAlertAndReset();
+                }
             });
-        }
-        
-        // Fungsi untuk menambahkan event listener ke tombol order yang dinamis
-        function attachOrderButtonListeners() {
-            // Gunakan event delegation untuk efisiensi
-            const templateGrid = document.querySelector('.template-grid');
-            if (templateGrid) {
-                templateGrid.addEventListener('click', function(e) {
-                    // Cek apakah yang diklik adalah tombol order
-                    if (e.target && e.target.classList.contains('order-btn')) {
-                        e.preventDefault();
-                        const button = e.target;
-                        const templateName = button.dataset.template;
-                        const templatePrice = button.dataset.price;
-                        const adminNumber = button.dataset.admin;
-                        if (!adminNumber) {
-                            alert('Nomor admin untuk produk ini tidak tersedia.');
-                            return;
-                        }
-                        let message = `*Pemesanan Undangan Digital*\n\nHalo, saya tertarik untuk memesan template:\n\n*Template:* ${templateName}\n*Harga:* ${templatePrice}\n\nMohon informasinya lebih lanjut. Terima kasih!`;
-                        const whatsappURL = `https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`;
-                        window.open(whatsappURL, '_blank');
+
+            function showPage(pageId) {
+                allPages.forEach(page => page.classList.remove('is-active-page'));
+                
+                if (pageId === '#home') {
+                    document.querySelector('#home').classList.add('is-active-page');
+                    document.querySelector('#testimonials').classList.add('is-active-page');
+                    document.querySelector('#layanan').classList.add('is-active-page');
+                } else {
+                    const targetPage = document.querySelector(pageId);
+                    if (targetPage) {
+                        targetPage.classList.add('is-active-page');
+                    }
+                }
+                
+                window.scrollTo(0, 0);
+                bottomNavItems.forEach(item => {
+                    item.classList.toggle('active', item.getAttribute('href') === pageId);
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('href');
+                    showPage(pageId);
+                    if (mobileNav.classList.contains('is-active')) {
+                        mobileNav.classList.remove('is-active');
                     }
                 });
-            }
-        }
+            });
 
-        // Fungsi baru untuk memuat template dari file JSON
-        async function loadTemplates() {
-            const templateGrid = document.querySelector('.template-grid');
-            if (!templateGrid) return;
+            menuToggle.addEventListener('click', () => mobileNav.classList.toggle('is-active'));
 
-            try {
-                const response = await fetch('/_data/templates.json');
-                if (!response.ok) throw new Error('Data tidak ditemukan!');
-                
-                const data = await response.json();
-                const templates = data.items || [];
-                
-                templateGrid.innerHTML = '';
-                
-                if (templates.length === 0) {
-                    templateGrid.innerHTML = '<p style="text-align:center; color: var(--light-text); grid-column: 1 / -1;">Belum ada template yang tersedia.</p>';
-                    return;
-                }
+            const categoryItems = document.querySelectorAll('.category-item');
+            const templateCards = document.querySelectorAll('.template-card');
 
-                templates.forEach(template => {
-                    const cardHTML = `
-                        <div class="template-card" data-category="${template.category}">
-                            ${template.label ? `<div class="template-label">${template.label}</div>` : ''}
-                            <div class="card-image"><img src="${template.imageUrl}" alt="${template.name}"></div>
-                            <div class="card-content">
-                                <h3>${template.name}</h3>
-                                <div class="price">
-                                    ${template.originalPrice ? `<span class="original-price">${template.originalPrice}</span>` : ''}
-                                    <span>${template.price}</span>
-                                </div>
-                                <div class="card-buttons">
-                                    <a href="${template.previewUrl}" class="preview-btn" target="_blank">Preview</a>
-                                    <a href="#" class="order-btn" data-template="${template.name}" data-price="${template.price}" data-admin="${template.adminNumber}">Order</a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    templateGrid.insertAdjacentHTML('beforeend', cardHTML);
+            function filterTemplates(category) {
+                templateCards.forEach(card => {
+                    card.style.display = card.dataset.category === category ? 'flex' : 'none';
                 });
-
-                attachOrderButtonListeners(); // Panggil fungsi ini setelah template dimuat
-                const activeCategoryItem = document.querySelector('.category-item.active');
-                if (activeCategoryItem) {
-                    filterTemplates(activeCategoryItem.dataset.filter);
-                }
-
-            } catch (error) {
-                console.error('Gagal memuat template:', error);
-                templateGrid.innerHTML = '<p style="text-align:center; color: var(--light-text); grid-column: 1 / -1;">Gagal memuat template. Coba lagi nanti.</p>';
             }
-        }
+            
+            filterTemplates('pernikahan');
 
-        // Fungsi untuk custom alert
-        function showCustomAlert(message) {
-            customAlertMessage.textContent = message;
-            customAlertOverlay.style.display = 'flex';
-        }
-
-        function hideCustomAlertAndReset() {
-            customAlertOverlay.style.display = 'none';
-            if (document.getElementById('comment-form')) {
-                document.getElementById('comment-form').reset();
-            }
-            showPage('#home');
-        }
-
-        // --- EVENT LISTENERS ---
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const pageId = this.getAttribute('href');
-                showPage(pageId);
-                if (mobileNav.classList.contains('is-active')) {
-                    mobileNav.classList.remove('is-active');
-                }
-            });
-        });
-
-        menuToggle.addEventListener('click', () => mobileNav.classList.toggle('is-active'));
-        
-        customAlertCloseBtn.addEventListener('click', hideCustomAlertAndReset);
-        customAlertOverlay.addEventListener('click', (e) => {
-            if (e.target === customAlertOverlay) hideCustomAlertAndReset();
-        });
-
-        categoryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                categoryItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                const filterValue = this.getAttribute('data-filter');
-                filterTemplates(filterValue);
-            });
-        });
-
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const namaKontak = document.getElementById('nama-kontak').value;
-                const pesanKontak = document.getElementById('pesan-kontak').value;
-                const phoneNumber = '6281275623551'; 
-                let message = `*Pertanyaan dari Pengunjung Website*\n\n*Nama:* ${namaKontak}\n*Pesan:* ${pesanKontak}`;
-                const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-                window.open(whatsappURL, '_blank');
-                contactForm.reset();
-            });
-        }
-        
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            question.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                faqItems.forEach(otherItem => {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('span').textContent = '+';
+            categoryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    categoryItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    const filterValue = this.getAttribute('data-filter');
+                    filterTemplates(filterValue);
                 });
-                if (!isActive) {
-                    item.classList.add('active');
-                    question.querySelector('span').textContent = '-';
-                }
             });
-        });
-
-        if(viewMoreBtn) {
-            viewMoreBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                showPage('#ulasan');
-                document.querySelector('.nav-item[href="#ulasan"]').classList.add('active');
-            });
-        }
-
-        // --- FUNGSI & LOGIKA FIREBASE (KOMENTAR & CHAT) ---
-        function initializeFirebaseLogic() {
-            if (window.firebaseDB) {
-                const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit, doc, setDoc } = window.firebaseDB;
-                const commentForm = document.getElementById('comment-form');
-                const commentsList = document.getElementById('comments-list');
-                const testimonialsContainer = document.getElementById('testimonials-container');
-                const ulasanTitle = document.getElementById('ulasan-title');
-
-                // Muat 5 testimoni untuk halaman utama
-                const testimonialsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"), limit(5));
-                onSnapshot(testimonialsQuery, (snapshot) => {
-                    if (!testimonialsContainer || !viewMoreBtn) return;
-                    const existingTestimonials = testimonialsContainer.querySelectorAll('.testimonial-card');
-                    existingTestimonials.forEach(card => card.remove());
-                    snapshot.docs.forEach((doc) => {
-                        const comment = doc.data();
-                        const testimonialHTML = `<div class="testimonial-card"><p>"${comment.text}"</p><div class="author">- ${comment.name}, ${comment.location}</div></div>`;
-                        viewMoreBtn.insertAdjacentHTML('beforebegin', testimonialHTML);
-                    });
-                    viewMoreBtn.style.display = snapshot.docs.length > 0 ? 'block' : 'none';
-                });
-                
-                // Muat semua komentar untuk halaman ulasan
-                const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
-                onSnapshot(commentsQuery, (snapshot) => {
-                    if (!ulasanTitle || !commentsList) return;
-                    ulasanTitle.innerHTML = `Semua Ulasan <span class="review-count-badge">${snapshot.size}</span>`; 
-                    commentsList.innerHTML = ''; 
-                    if(snapshot.empty){
-                        commentsList.innerHTML = '<p style="text-align:center; color: var(--light-text);">Belum ada ulasan.</p>';
+            
+            const templateOrderButtons = document.querySelectorAll('.template-card .order-btn');
+            templateOrderButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const templateName = this.dataset.template;
+                    const templatePrice = this.dataset.price;
+                    const adminNumber = this.dataset.admin;
+                    if (!adminNumber) {
+                        alert('Nomor admin untuk produk ini tidak tersedia.');
                         return;
                     }
-                    snapshot.docs.forEach((doc) => {
-                        const comment = doc.data();
-                        let formattedDate = 'Baru saja';
-                        if (comment.timestamp) {
-                            formattedDate = comment.timestamp.toDate().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).replace(/\./g, ':');
-                        }
-                        const commentHTML = `<div class="comment-card"><div class="comment-header"><div><span class="comment-author">${comment.name}</span><span class="comment-location">, ${comment.location || ''}</span></div><span class="comment-category">${comment.category || 'Ulasan'}</span></div><p class="comment-body">${comment.text}</p><span class="comment-timestamp">${formattedDate}</span></div>`;
-                        commentsList.insertAdjacentHTML('beforeend', commentHTML);
-                    });
+                    let message = `*Pemesanan Undangan Digital*\n\nHalo, saya tertarik untuk memesan template:\n\n*Template:* ${templateName}\n*Harga:* ${templatePrice}\n\nMohon informasinya lebih lanjut. Terima kasih!`;
+                    const whatsappURL = `https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappURL, '_blank');
                 });
-                
-                // Kirim komentar
-                if (commentForm) {
+            });
+
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                      const namaKontak = document.getElementById('nama-kontak').value;
+                      const pesanKontak = document.getElementById('pesan-kontak').value;
+                      const phoneNumber = '6281275623551'; 
+                      let message = `*Pertanyaan dari Pengunjung Website*\n\n*Nama:* ${namaKontak}\n*Pesan:* ${pesanKontak}`;
+                      const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappURL, '_blank');
+                      contactForm.reset();
+                });
+            }
+            
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('span').textContent = '+';
+                    });
+                    if (!isActive) {
+                        item.classList.add('active');
+                        question.querySelector('span').textContent = '-';
+                    }
+                });
+            });
+
+            function initializeFirebaseLogic() {
+                if (window.firebaseDB) {
+                    const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit, doc, setDoc } = window.firebaseDB;
+
+                    function loadTestimonials() {
+                        const testimonialsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"), limit(5));
+                        onSnapshot(testimonialsQuery, (snapshot) => {
+                            const existingTestimonials = testimonialsContainer.querySelectorAll('.testimonial-card');
+                            existingTestimonials.forEach(card => card.remove());
+                            snapshot.docs.forEach((doc) => {
+                                const comment = doc.data();
+                                const testimonialHTML = `<div class="testimonial-card"><p>"${comment.text}"</p><div class="author">- ${comment.name}, ${comment.location}</div></div>`;
+                                viewMoreBtn.insertAdjacentHTML('beforebegin', testimonialHTML);
+                            });
+                            viewMoreBtn.style.display = snapshot.docs.length > 4 ? 'block' : 'none';
+                        });
+                    }
+                    
+                    function loadAllComments() {
+                        const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+                        const ulasanTitle = document.getElementById('ulasan-title'); 
+                        onSnapshot(commentsQuery, (snapshot) => {
+                            const totalUlasan = snapshot.size;
+                            ulasanTitle.innerHTML = `Semua Ulasan <span class="review-count-badge">${totalUlasan}</span>`; 
+                            commentsList.innerHTML = ''; 
+                            if(snapshot.empty){
+                                commentsList.innerHTML = '<p style="text-align:center; color: var(--light-text);">Belum ada ulasan.</p>';
+                                return;
+                            }
+                            snapshot.docs.forEach((doc) => {
+                                const comment = doc.data();
+                                let formattedDate = 'Baru saja';
+                                if (comment.timestamp) {
+                                    const date = comment.timestamp.toDate();
+                                    formattedDate = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).replace(/\./g, ':');
+                                }
+                                const commentHTML = `<div class="comment-card"><div class="comment-header"><div><span class="comment-author">${comment.name}</span><span class="comment-location">, ${comment.location || ''}</span></div><span class="comment-category">${comment.category || 'Ulasan'}</span></div><p class="comment-body">${comment.text}</p><span class="comment-timestamp">${formattedDate}</span></div>`;
+                                commentsList.insertAdjacentHTML('beforeend', commentHTML);
+                            });
+                        });
+                    }
+                    loadTestimonials();
+                    loadAllComments();
                     commentForm.addEventListener('submit', async function(e) {
                         e.preventDefault();
                         const name = document.getElementById('commenter-name').value;
@@ -1510,125 +1530,149 @@
                             showCustomAlert('Maaf, terjadi kesalahan saat mengirim komentar.');
                         }
                     });
-                }
 
-                // Logika Live Chat
-                const liveChatFab = document.getElementById('cc-fab');
-                const notificationBadge = liveChatFab.querySelector('.fab-notification-badge');
-                const chatWidget = document.getElementById('chat-widget');
-                const closeChatBtn = document.getElementById('chat-close-btn');
-                const startChatForm = document.getElementById('start-chat-form');
-                const chatInputForm = document.getElementById('chat-input-form');
-                const chatMessagesContainer = document.getElementById('chat-messages-container');
-                const chatMessages = document.getElementById('chat-messages');
-                const userNameInput = document.getElementById('user-name-input');
-                const chatInput = document.getElementById('chat-input');
-                let currentChatId = localStorage.getItem('chatId');
-                let unsubscribeChat; 
-                let unreadCount = 0;
+                    // ===== PERUBAHAN JAVASCRIPT DIMULAI DI SINI =====
+                    const liveChatFab = document.getElementById('cc-fab');
+                    const notificationBadge = liveChatFab.querySelector('.fab-notification-badge'); // Ambil elemen badge
+                    const chatWidget = document.getElementById('chat-widget');
+                    const closeChatBtn = document.getElementById('chat-close-btn');
+                    const startChatForm = document.getElementById('start-chat-form');
+                    const chatInputForm = document.getElementById('chat-input-form');
+                    const chatMessagesContainer = document.getElementById('chat-messages-container');
+                    const chatMessages = document.getElementById('chat-messages');
+                    const userNameInput = document.getElementById('user-name-input');
+                    const chatInput = document.getElementById('chat-input');
+                    
+                    let currentChatId = localStorage.getItem('chatId');
+                    let unsubscribeChat; 
+                    let unreadCount = 0; // Variabel untuk menghitung pesan belum dibaca
 
-                function showChatInterface() {
-                    startChatForm.style.display = 'none';
-                    chatMessagesContainer.style.display = 'flex';
-                    chatInputForm.style.display = 'flex';
-                }
-                function showStartForm() {
-                    startChatForm.style.display = 'block';
-                    chatMessagesContainer.style.display = 'none';
-                    chatInputForm.style.display = 'none';
-                }
-                function listenToMessages(chatId) {
-                    if (unsubscribeChat) unsubscribeChat(); 
-                    const messagesQuery = query(collection(db, `live_chats/${chatId}/messages`), orderBy("timestamp"));
-                    unsubscribeChat = onSnapshot(messagesQuery, (snapshot) => {
-                        snapshot.docChanges().forEach((change) => {
-                            if (change.type === "added") {
-                                const msg = change.doc.data();
-                                if (msg.sender === 'admin' && !chatWidget.classList.contains('is-open')) {
-                                    unreadCount++;
+                    function showChatInterface() {
+                        startChatForm.style.display = 'none';
+                        chatMessagesContainer.style.display = 'flex';
+                        chatInputForm.style.display = 'flex';
+                    }
+                    
+                    function showStartForm() {
+                        startChatForm.style.display = 'block';
+                        chatMessagesContainer.style.display = 'none';
+                        chatInputForm.style.display = 'none';
+                    }
+                    
+                    function listenToMessages(chatId) {
+                        if (unsubscribeChat) unsubscribeChat(); 
+                        
+                        const messagesQuery = query(collection(db, `live_chats/${chatId}/messages`), orderBy("timestamp"));
+                        unsubscribeChat = onSnapshot(messagesQuery, (snapshot) => {
+                            
+                            // Logika untuk notifikasi pesan baru dari admin
+                            snapshot.docChanges().forEach((change) => {
+                                if (change.type === "added") {
+                                    const msg = change.doc.data();
+                                    // Tambah hitungan hanya jika pesan dari admin dan jendela chat sedang tidak terbuka
+                                    if (msg.sender === 'admin' && !chatWidget.classList.contains('is-open')) {
+                                        unreadCount++;
+                                    }
                                 }
+                            });
+
+                            // Perbarui tampilan badge notifikasi
+                            if (unreadCount > 0) {
+                                notificationBadge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+                                notificationBadge.classList.add('visible');
+                            } else {
+                                notificationBadge.classList.remove('visible');
+                            }
+
+                            // Render semua pesan di dalam jendela chat
+                            chatMessages.innerHTML = '';
+                            snapshot.forEach((doc) => {
+                                const msg = doc.data();
+                                const messageDiv = document.createElement('div');
+                                messageDiv.classList.add('message', msg.sender === 'user' ? 'user-message' : 'admin-message');
+                                messageDiv.textContent = msg.text;
+                                chatMessages.appendChild(messageDiv);
+                            });
+                            
+                            // Auto-scroll ke bawah hanya jika chat sedang terbuka
+                            if (chatWidget.classList.contains('is-open')) {
+                                const chatContent = document.getElementById('chat-content');
+                                chatContent.scrollTop = chatContent.scrollHeight;
                             }
                         });
-                        if (unreadCount > 0) {
-                            notificationBadge.textContent = unreadCount > 9 ? '9+' : unreadCount;
-                            notificationBadge.classList.add('visible');
-                        } else {
-                            notificationBadge.classList.remove('visible');
-                        }
-                        chatMessages.innerHTML = '';
-                        snapshot.forEach((doc) => {
-                            const msg = doc.data();
-                            const messageDiv = document.createElement('div');
-                            messageDiv.classList.add('message', msg.sender === 'user' ? 'user-message' : 'admin-message');
-                            messageDiv.textContent = msg.text;
-                            chatMessages.appendChild(messageDiv);
+                    }
+
+                    liveChatFab.addEventListener('click', () => {
+                        chatWidget.classList.add('is-open');
+                        document.body.classList.add('chat-is-open');
+
+                        // Reset notifikasi saat chat dibuka
+                        unreadCount = 0;
+                        notificationBadge.classList.remove('visible');
+                        notificationBadge.textContent = '';
+                    });
+                    
+                    closeChatBtn.addEventListener('click', () => {
+                        chatWidget.classList.remove('is-open');
+                        document.body.classList.remove('chat-is-open');
+                    });
+                    
+                    startChatForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const userName = userNameInput.value.trim();
+                        if (!userName) return;
+
+                        const newChatId = 'chat_' + Date.now() + Math.random().toString(36).substring(2, 9);
+                        currentChatId = newChatId;
+
+                        await setDoc(doc(db, "live_chats", newChatId), {
+                            userName: userName,
+                            startedAt: serverTimestamp(),
+                            status: "open" // Menambahkan status chat
                         });
-                        if (chatWidget.classList.contains('is-open')) {
-                            const chatContent = document.getElementById('chat-content');
-                            chatContent.scrollTop = chatContent.scrollHeight;
-                        }
+
+                        localStorage.setItem('chatId', newChatId);
+                        localStorage.setItem('userName', userName);
+                        
+                        showChatInterface();
+                        listenToMessages(newChatId);
                     });
-                }
-                liveChatFab.addEventListener('click', () => {
-                    chatWidget.classList.add('is-open');
-                    document.body.classList.add('chat-is-open');
-                    unreadCount = 0;
-                    notificationBadge.classList.remove('visible');
-                    notificationBadge.textContent = '';
-                });
-                closeChatBtn.addEventListener('click', () => {
-                    chatWidget.classList.remove('is-open');
-                    document.body.classList.remove('chat-is-open');
-                });
-                startChatForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const userName = userNameInput.value.trim();
-                    if (!userName) return;
-                    const newChatId = 'chat_' + Date.now() + Math.random().toString(36).substring(2, 9);
-                    currentChatId = newChatId;
-                    await setDoc(doc(db, "live_chats", newChatId), {
-                        userName: userName,
-                        startedAt: serverTimestamp(),
-                        status: "open"
+
+                    chatInputForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const text = chatInput.value.trim();
+                        if (!text || !currentChatId) return;
+                        
+                        chatInput.value = '';
+                        await addDoc(collection(db, `live_chats/${currentChatId}/messages`), {
+                            text: text,
+                            sender: 'user',
+                            timestamp: serverTimestamp()
+                        });
+                        // Update status bahwa ada pesan baru dari user
+                        await setDoc(doc(db, "live_chats", currentChatId), { hasNewUserMessage: true }, { merge: true });
                     });
-                    localStorage.setItem('chatId', newChatId);
-                    localStorage.setItem('userName', userName);
-                    showChatInterface();
-                    listenToMessages(newChatId);
-                });
-                chatInputForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const text = chatInput.value.trim();
-                    if (!text || !currentChatId) return;
-                    chatInput.value = '';
-                    await addDoc(collection(db, `live_chats/${currentChatId}/messages`), {
-                        text: text,
-                        sender: 'user',
-                        timestamp: serverTimestamp()
-                    });
-                    await setDoc(doc(db, "live_chats", currentChatId), { hasNewUserMessage: true }, { merge: true });
-                });
-                if (currentChatId) {
-                    showChatInterface();
-                    listenToMessages(currentChatId);
+                    
+                    if (currentChatId) {
+                        showChatInterface();
+                        listenToMessages(currentChatId);
+                    } else {
+                        showStartForm();
+                    }
+                    // ===== AKHIR PERUBAHAN JAVASCRIPT =====
+
                 } else {
-                    showStartForm();
+                    setTimeout(initializeFirebaseLogic, 100);
                 }
-
-            } else {
-                setTimeout(initializeFirebaseLogic, 100);
             }
-        }
-
-        // --- INISIALISASI ---
-        
-        // Panggil fungsi pemuat template
-        loadTemplates();
-        
-        // Panggil fungsi untuk logika Firebase (akan menunggu window.firebaseDB siap)
-        initializeFirebaseLogic();
-
-    });
+            initializeFirebaseLogic();
+            
+            viewMoreBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('#ulasan');
+                document.querySelector('.nav-item[href="#ulasan"]').classList.add('active');
+            });
+        });
     </script>
 </body>
-</html>
+    </html>
