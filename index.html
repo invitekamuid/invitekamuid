@@ -763,14 +763,13 @@
             box-shadow: 0 0 3px rgba(0,0,0,0.3);
         }
 
-        /* ===== PERUBAHAN CSS: Style untuk Badge Notifikasi ===== */
         .fab-notification-badge {
             position: absolute;
-            top: -2px; /* Sedikit ke atas */
-            right: -2px; /* Sedikit ke kanan */
+            top: -2px;
+            right: -2px;
             width: 22px;
             height: 22px;
-            background-color: #FF3B30; /* Warna merah notifikasi */
+            background-color: #FF3B30;
             color: var(--white);
             border-radius: 50%;
             display: flex;
@@ -779,15 +778,14 @@
             font-size: 12px;
             font-weight: 700;
             border: 2px solid var(--white);
-            transform: scale(0); /* Mulai dari state tersembunyi */
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efek pop */
-            z-index: 2; /* Di atas indikator online */
+            transform: scale(0);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
         }
 
         .fab-notification-badge.visible {
-            transform: scale(1); /* Tampilkan badge */
+            transform: scale(1);
         }
-        /* ===== AKHIR PERUBAHAN CSS ===== */
 
 
         /* ===== STYLE UNTUK LIVE CHAT LAYAR PENUH ===== */
@@ -874,6 +872,7 @@
             padding-bottom: 10px;
         }
 
+        /* ===== PENAMBAHAN/PERUBAHAN CSS ===== */
         .message {
             padding: 10px 15px;
             border-radius: 20px;
@@ -881,6 +880,18 @@
             font-size: 15px;
             line-height: 1.4;
             word-wrap: break-word;
+            display: flex; /* Menggunakan flexbox */
+            flex-direction: column; /* Konten disusun vertikal */
+        }
+
+        .message-text {
+            /* Style khusus untuk teks jika dibutuhkan */
+            margin-bottom: 5px; /* Jarak antara teks dan jam */
+        }
+
+        .message-timestamp {
+            font-size: 11px; /* Ukuran font lebih kecil */
+            align-self: flex-end; /* Posisikan jam di ujung kanan bubble */
         }
 
         .user-message {
@@ -890,6 +901,10 @@
             align-self: flex-end;
         }
 
+        .user-message .message-timestamp {
+            color: rgba(255, 255, 255, 0.7); /* Warna jam untuk pesan user */
+        }
+
         .admin-message {
             background-color: var(--bg-light);
             color: var(--dark-text);
@@ -897,7 +912,24 @@
             border-bottom-left-radius: 5px;
             align-self: flex-start;
         }
-        
+
+        .admin-message .message-timestamp {
+            color: var(--light-text); /* Warna jam untuk pesan admin */
+        }
+
+        .chat-date-separator {
+            text-align: center;
+            margin: 15px auto;
+            padding: 4px 12px;
+            background-color: var(--bg-light);
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--light-text);
+            width: fit-content;
+        }
+        /* ===== AKHIR PENAMBAHAN/PERUBAHAN CSS ===== */
+
         .chat-input-form {
             display: flex;
             gap: 10px;
@@ -1531,9 +1563,8 @@
                         }
                     });
 
-                    // ===== PERUBAHAN JAVASCRIPT DIMULAI DI SINI =====
                     const liveChatFab = document.getElementById('cc-fab');
-                    const notificationBadge = liveChatFab.querySelector('.fab-notification-badge'); // Ambil elemen badge
+                    const notificationBadge = liveChatFab.querySelector('.fab-notification-badge');
                     const chatWidget = document.getElementById('chat-widget');
                     const closeChatBtn = document.getElementById('chat-close-btn');
                     const startChatForm = document.getElementById('start-chat-form');
@@ -1545,7 +1576,7 @@
                     
                     let currentChatId = localStorage.getItem('chatId');
                     let unsubscribeChat; 
-                    let unreadCount = 0; // Variabel untuk menghitung pesan belum dibaca
+                    let unreadCount = 0;
 
                     function showChatInterface() {
                         startChatForm.style.display = 'none';
@@ -1559,24 +1590,23 @@
                         chatInputForm.style.display = 'none';
                     }
                     
+                    // ===== FUNGSI INI DIMODIFIKASI TOTAL =====
                     function listenToMessages(chatId) {
                         if (unsubscribeChat) unsubscribeChat(); 
                         
                         const messagesQuery = query(collection(db, `live_chats/${chatId}/messages`), orderBy("timestamp"));
                         unsubscribeChat = onSnapshot(messagesQuery, (snapshot) => {
                             
-                            // Logika untuk notifikasi pesan baru dari admin
+                            // Logika notifikasi (tetap sama)
                             snapshot.docChanges().forEach((change) => {
                                 if (change.type === "added") {
                                     const msg = change.doc.data();
-                                    // Tambah hitungan hanya jika pesan dari admin dan jendela chat sedang tidak terbuka
                                     if (msg.sender === 'admin' && !chatWidget.classList.contains('is-open')) {
                                         unreadCount++;
                                     }
                                 }
                             });
 
-                            // Perbarui tampilan badge notifikasi
                             if (unreadCount > 0) {
                                 notificationBadge.textContent = unreadCount > 9 ? '9+' : unreadCount;
                                 notificationBadge.classList.add('visible');
@@ -1584,17 +1614,50 @@
                                 notificationBadge.classList.remove('visible');
                             }
 
-                            // Render semua pesan di dalam jendela chat
+                            // Logika render pesan yang baru
                             chatMessages.innerHTML = '';
+                            let lastMessageDate = null; // Variabel untuk melacak tanggal pesan terakhir
+
                             snapshot.forEach((doc) => {
                                 const msg = doc.data();
+                                
+                                // Cek jika pesan punya timestamp, jika tidak, lewati
+                                if (!msg.timestamp) return;
+
+                                const currentMessageDate = msg.timestamp.toDate();
+
+                                // Cek apakah perlu menambahkan pemisah tanggal
+                                if (!lastMessageDate || lastMessageDate.toDateString() !== currentMessageDate.toDateString()) {
+                                    const separator = document.createElement('div');
+                                    separator.classList.add('chat-date-separator');
+                                    separator.textContent = getFormattedDate(currentMessageDate);
+                                    chatMessages.appendChild(separator);
+                                }
+
+                                // Buat elemen pesan
                                 const messageDiv = document.createElement('div');
                                 messageDiv.classList.add('message', msg.sender === 'user' ? 'user-message' : 'admin-message');
-                                messageDiv.textContent = msg.text;
+
+                                // Buat elemen untuk teks pesan
+                                const textSpan = document.createElement('span');
+                                textSpan.classList.add('message-text');
+                                textSpan.textContent = msg.text;
+
+                                // Buat elemen untuk jam
+                                const timeSpan = document.createElement('span');
+                                timeSpan.classList.add('message-timestamp');
+                                timeSpan.textContent = currentMessageDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace(/\./g, ':');
+                                
+                                // Masukkan teks dan jam ke dalam div pesan
+                                messageDiv.appendChild(textSpan);
+                                messageDiv.appendChild(timeSpan);
+                                
                                 chatMessages.appendChild(messageDiv);
+                                
+                                // Update tanggal pesan terakhir
+                                lastMessageDate = currentMessageDate;
                             });
                             
-                            // Auto-scroll ke bawah hanya jika chat sedang terbuka
                             if (chatWidget.classList.contains('is-open')) {
                                 const chatContent = document.getElementById('chat-content');
                                 chatContent.scrollTop = chatContent.scrollHeight;
@@ -1602,14 +1665,40 @@
                         });
                     }
 
+                    // Fungsi baru untuk format tanggal ("Hari Ini", "Kemarin", atau tanggal lengkap)
+                    function getFormattedDate(date) {
+                        const today = new Date();
+                        const yesterday = new Date();
+                        yesterday.setDate(yesterday.getDate() - 1);
+
+                        if (date.toDateString() === today.toDateString()) {
+                            return 'Hari Ini';
+                        } else if (date.toDateString() === yesterday.toDateString()) {
+                            return 'Kemarin';
+                        } else {
+                            return date.toLocaleDateString('id-ID', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                        }
+                    }
+                    // ===== AKHIR BAGIAN MODIFIKASI =====
+
                     liveChatFab.addEventListener('click', () => {
                         chatWidget.classList.add('is-open');
                         document.body.classList.add('chat-is-open');
 
-                        // Reset notifikasi saat chat dibuka
                         unreadCount = 0;
                         notificationBadge.classList.remove('visible');
                         notificationBadge.textContent = '';
+                        
+                        // Panggil scroll ke bawah setelah chat terbuka
+                        const chatContent = document.getElementById('chat-content');
+                        setTimeout(() => {
+                           chatContent.scrollTop = chatContent.scrollHeight;
+                        }, 400); // Sesuaikan dengan durasi transisi
                     });
                     
                     closeChatBtn.addEventListener('click', () => {
@@ -1628,7 +1717,7 @@
                         await setDoc(doc(db, "live_chats", newChatId), {
                             userName: userName,
                             startedAt: serverTimestamp(),
-                            status: "open" // Menambahkan status chat
+                            status: "open"
                         });
 
                         localStorage.setItem('chatId', newChatId);
@@ -1649,7 +1738,6 @@
                             sender: 'user',
                             timestamp: serverTimestamp()
                         });
-                        // Update status bahwa ada pesan baru dari user
                         await setDoc(doc(db, "live_chats", currentChatId), { hasNewUserMessage: true }, { merge: true });
                     });
                     
@@ -1659,7 +1747,6 @@
                     } else {
                         showStartForm();
                     }
-                    // ===== AKHIR PERUBAHAN JAVASCRIPT =====
 
                 } else {
                     setTimeout(initializeFirebaseLogic, 100);
@@ -1675,4 +1762,4 @@
         });
     </script>
 </body>
-    </html>
+                                    </html>
