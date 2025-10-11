@@ -35,8 +35,8 @@
             color: var(--dark-text);
         }
         
-        /* Class untuk mencegah scroll saat chat layar penuh aktif */
-        body.chat-is-open {
+        /* Class untuk mencegah scroll saat pop-up atau chat aktif */
+        body.no-scroll {
             overflow: hidden;
         }
 
@@ -872,7 +872,6 @@
             padding-bottom: 10px;
         }
 
-        /* ===== PENAMBAHAN/PERUBAHAN CSS ===== */
         .message {
             padding: 10px 15px;
             border-radius: 20px;
@@ -880,18 +879,17 @@
             font-size: 15px;
             line-height: 1.4;
             word-wrap: break-word;
-            display: flex; /* Menggunakan flexbox */
-            flex-direction: column; /* Konten disusun vertikal */
+            display: flex;
+            flex-direction: column;
         }
 
         .message-text {
-            /* Style khusus untuk teks jika dibutuhkan */
-            margin-bottom: 5px; /* Jarak antara teks dan jam */
+            margin-bottom: 5px;
         }
 
         .message-timestamp {
-            font-size: 11px; /* Ukuran font lebih kecil */
-            align-self: flex-end; /* Posisikan jam di ujung kanan bubble */
+            font-size: 11px;
+            align-self: flex-end;
         }
 
         .user-message {
@@ -902,7 +900,7 @@
         }
 
         .user-message .message-timestamp {
-            color: rgba(255, 255, 255, 0.7); /* Warna jam untuk pesan user */
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .admin-message {
@@ -914,7 +912,7 @@
         }
 
         .admin-message .message-timestamp {
-            color: var(--light-text); /* Warna jam untuk pesan admin */
+            color: var(--light-text);
         }
 
         .chat-date-separator {
@@ -928,7 +926,6 @@
             color: var(--light-text);
             width: fit-content;
         }
-        /* ===== AKHIR PENAMBAHAN/PERUBAHAN CSS ===== */
 
         .chat-input-form {
             display: flex;
@@ -969,6 +966,57 @@
         #chat-send-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ===== CSS UNTUK TOMBOL YANG LEBIH RAPI ===== */
+        .template-actions-container {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .actions-prompt {
+            color: var(--light-text);
+            font-size: 14px;
+            margin-bottom: 20px;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .actions-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap; /* Agar rapi di layar kecil */
+        }
+        
+        .custom-order-btn {
+            padding: 10px 20px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: 1px solid var(--primary-blue);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            /* Menyesuaikan margin agar sejajar dengan tombol di sebelahnya */
+            margin: 0; 
+        }
+        
+        .custom-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(51,119,255,0.2);
+        }
+
+        /* Penyesuaian untuk tombol .view-more-btn di dalam actions-buttons */
+        .actions-buttons .view-more-btn {
+            margin: 0; /* Reset margin auto */
+        }
+        /* ===== AKHIR CSS YANG DIRAPIKAN ===== */
+
     </style>
 </head>
 
@@ -1114,9 +1162,16 @@
                             </div>
                         </div>
                     </div>
-                    
                 </div>
-            </div>
+                
+                <div class="template-actions-container">
+                    <p class="actions-prompt">Tidak menemukan desain yang cocok? Lihat opsi lain atau buat desain custom Anda sendiri.</p>
+                    <div class="actions-buttons">
+                         <a href="#" class="view-more-btn" id="view-more-designs-btn">Lihat Lebih Banyak</a>
+                         <a href="#" class="custom-order-btn">Request Custom</a>
+                    </div>
+                </div>
+                </div>
         </section>
         
         <section id="testimonials" class="page-section is-active-page">
@@ -1305,11 +1360,10 @@
     
     <div id="custom-alert-overlay" class="custom-alert-overlay">
         <div class="custom-alert-box">
-            <div class="alert-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="#28a745" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            </div>
-            <h3>Berhasil!</h3>
-            <p id="custom-alert-message">Komentar Anda telah berhasil dikirim.</p>
+            <div id="custom-alert-icon" class="alert-icon">
+                </div>
+            <h3 id="custom-alert-title"></h3>
+            <p id="custom-alert-message"></p>
             <button id="custom-alert-close" class="form-btn">Tutup</button>
         </div>
     </div>
@@ -1383,25 +1437,43 @@
             const commentsList = document.getElementById('comments-list');
             const testimonialsContainer = document.getElementById('testimonials-container');
             const viewMoreBtn = document.getElementById('view-more-reviews');
+
+            // ===== KODE POP-UP BARU DIMASUKKAN DI SINI =====
             const customAlertOverlay = document.getElementById('custom-alert-overlay');
+            const customAlertTitle = document.getElementById('custom-alert-title');
             const customAlertMessage = document.getElementById('custom-alert-message');
+            const customAlertIcon = document.getElementById('custom-alert-icon');
             const customAlertCloseBtn = document.getElementById('custom-alert-close');
             
-            function showCustomAlert(message) {
+            const ICON_SUCCESS = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="#28a745" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
+            const ICON_INFO = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="#00A3FF" d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8z"/></svg>`;
+
+            let afterCloseCallback = null;
+
+            function showCustomAlert(title, message, icon, callback) {
+                customAlertTitle.textContent = title;
                 customAlertMessage.textContent = message;
+                customAlertIcon.innerHTML = icon || '';
+                afterCloseCallback = callback || null;
+                
+                document.body.classList.add('no-scroll');
                 customAlertOverlay.style.display = 'flex';
             }
 
-            function hideCustomAlertAndReset() {
+            function hideCustomAlert() {
                 customAlertOverlay.style.display = 'none';
-                commentForm.reset();
-                showPage('#home');
+                document.body.classList.remove('no-scroll');
+                if (typeof afterCloseCallback === 'function') {
+                    afterCloseCallback();
+                }
             }
-            
-            customAlertCloseBtn.addEventListener('click', hideCustomAlertAndReset);
+            // ===============================================
+
+            // Event listener untuk tombol tutup dan overlay diganti agar lebih fleksibel
+            customAlertCloseBtn.addEventListener('click', hideCustomAlert);
             customAlertOverlay.addEventListener('click', (e) => {
                 if (e.target === customAlertOverlay) {
-                    hideCustomAlertAndReset();
+                    hideCustomAlert();
                 }
             });
 
@@ -1436,7 +1508,10 @@
                 });
             });
 
-            menuToggle.addEventListener('click', () => mobileNav.classList.toggle('is-active'));
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('is-active');
+                document.body.classList.toggle('no-scroll');
+            });
 
             const categoryItems = document.querySelectorAll('.category-item');
             const templateCards = document.querySelectorAll('.template-card');
@@ -1505,6 +1580,37 @@
                 });
             });
 
+            // ===== LOGIKA TOMBOL "LIHAT LEBIH BANYAK" DIGANTI DENGAN POP-UP CUSTOM =====
+            const viewMoreDesignsBtn = document.getElementById('view-more-designs-btn');
+            const customOrderBtn = document.querySelector('.custom-order-btn');
+
+            if (viewMoreDesignsBtn) {
+                viewMoreDesignsBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Menggunakan fungsi pop-up custom yang baru
+                    showCustomAlert(
+                        'Informasi',
+                        'Anda sudah melihat semua koleksi kami! Belum menemukan yang pas? Jangan ragu untuk klik tombol "Request Custom"!',
+                        ICON_INFO
+                    );
+                });
+            }
+
+            if (customOrderBtn) {
+                customOrderBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const activeCategoryItem = document.querySelector('.category-item.active');
+                    const categoryName = activeCategoryItem ? activeCategoryItem.innerText : 'Umum';
+                    
+                    const adminNumber = '6281275623551';
+                    const message = `*Request Desain Custom*\n\nHalo, saya tertarik untuk membuat undangan custom untuk kategori: *${categoryName}*.\n\nMohon informasinya lebih lanjut. Terima kasih!`;
+                    
+                    const whatsappURL = `https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappURL, '_blank');
+                });
+            }
+
             function initializeFirebaseLogic() {
                 if (window.firebaseDB) {
                     const { db, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit, doc, setDoc } = window.firebaseDB;
@@ -1548,6 +1654,8 @@
                     }
                     loadTestimonials();
                     loadAllComments();
+
+                    // ===== PENGIRIMAN KOMENTAR DISESUAIKAN DENGAN POP-UP BARU =====
                     commentForm.addEventListener('submit', async function(e) {
                         e.preventDefault();
                         const name = document.getElementById('commenter-name').value;
@@ -1557,9 +1665,17 @@
 
                         try {
                             await addDoc(collection(db, "comments"), { name, location, category, text: commentText, timestamp: serverTimestamp() });
-                            showCustomAlert('Terima kasih! Komentar Anda telah berhasil dikirim.');
+                            showCustomAlert(
+                                'Berhasil!',
+                                'Terima kasih! Komentar Anda telah berhasil dikirim.',
+                                ICON_SUCCESS,
+                                () => { // Ini adalah callback setelah pop-up ditutup
+                                    commentForm.reset();
+                                    showPage('#home');
+                                }
+                            );
                         } catch (error) {
-                            showCustomAlert('Maaf, terjadi kesalahan saat mengirim komentar.');
+                            showCustomAlert('Error', 'Maaf, terjadi kesalahan saat mengirim komentar.', ICON_INFO);
                         }
                     });
 
@@ -1590,14 +1706,12 @@
                         chatInputForm.style.display = 'none';
                     }
                     
-                    // ===== FUNGSI INI DIMODIFIKASI TOTAL =====
                     function listenToMessages(chatId) {
                         if (unsubscribeChat) unsubscribeChat(); 
                         
                         const messagesQuery = query(collection(db, `live_chats/${chatId}/messages`), orderBy("timestamp"));
                         unsubscribeChat = onSnapshot(messagesQuery, (snapshot) => {
                             
-                            // Logika notifikasi (tetap sama)
                             snapshot.docChanges().forEach((change) => {
                                 if (change.type === "added") {
                                     const msg = change.doc.data();
@@ -1614,19 +1728,16 @@
                                 notificationBadge.classList.remove('visible');
                             }
 
-                            // Logika render pesan yang baru
                             chatMessages.innerHTML = '';
-                            let lastMessageDate = null; // Variabel untuk melacak tanggal pesan terakhir
+                            let lastMessageDate = null;
 
                             snapshot.forEach((doc) => {
                                 const msg = doc.data();
                                 
-                                // Cek jika pesan punya timestamp, jika tidak, lewati
                                 if (!msg.timestamp) return;
 
                                 const currentMessageDate = msg.timestamp.toDate();
 
-                                // Cek apakah perlu menambahkan pemisah tanggal
                                 if (!lastMessageDate || lastMessageDate.toDateString() !== currentMessageDate.toDateString()) {
                                     const separator = document.createElement('div');
                                     separator.classList.add('chat-date-separator');
@@ -1634,27 +1745,22 @@
                                     chatMessages.appendChild(separator);
                                 }
 
-                                // Buat elemen pesan
                                 const messageDiv = document.createElement('div');
                                 messageDiv.classList.add('message', msg.sender === 'user' ? 'user-message' : 'admin-message');
 
-                                // Buat elemen untuk teks pesan
                                 const textSpan = document.createElement('span');
                                 textSpan.classList.add('message-text');
                                 textSpan.textContent = msg.text;
 
-                                // Buat elemen untuk jam
                                 const timeSpan = document.createElement('span');
                                 timeSpan.classList.add('message-timestamp');
                                 timeSpan.textContent = currentMessageDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace(/\./g, ':');
                                 
-                                // Masukkan teks dan jam ke dalam div pesan
                                 messageDiv.appendChild(textSpan);
                                 messageDiv.appendChild(timeSpan);
                                 
                                 chatMessages.appendChild(messageDiv);
                                 
-                                // Update tanggal pesan terakhir
                                 lastMessageDate = currentMessageDate;
                             });
                             
@@ -1665,7 +1771,6 @@
                         });
                     }
 
-                    // Fungsi baru untuk format tanggal ("Hari Ini", "Kemarin", atau tanggal lengkap)
                     function getFormattedDate(date) {
                         const today = new Date();
                         const yesterday = new Date();
@@ -1684,26 +1789,24 @@
                             });
                         }
                     }
-                    // ===== AKHIR BAGIAN MODIFIKASI =====
 
                     liveChatFab.addEventListener('click', () => {
                         chatWidget.classList.add('is-open');
-                        document.body.classList.add('chat-is-open');
+                        document.body.classList.add('no-scroll');
 
                         unreadCount = 0;
                         notificationBadge.classList.remove('visible');
                         notificationBadge.textContent = '';
                         
-                        // Panggil scroll ke bawah setelah chat terbuka
                         const chatContent = document.getElementById('chat-content');
                         setTimeout(() => {
                            chatContent.scrollTop = chatContent.scrollHeight;
-                        }, 400); // Sesuaikan dengan durasi transisi
+                        }, 400);
                     });
                     
                     closeChatBtn.addEventListener('click', () => {
                         chatWidget.classList.remove('is-open');
-                        document.body.classList.remove('chat-is-open');
+                        document.body.classList.remove('no-scroll');
                     });
                     
                     startChatForm.addEventListener('submit', async (e) => {
@@ -1762,4 +1865,4 @@
         });
     </script>
 </body>
-                                    </html>
+</html>
